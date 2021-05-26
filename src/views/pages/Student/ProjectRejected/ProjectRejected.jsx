@@ -1,5 +1,6 @@
 import Images from "../../../../components/Images";
 import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate";
+import { Button } from "react-bootstrap";
 
 function ProjectRejected() {
   return (

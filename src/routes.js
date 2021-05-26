@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import "./App.css";
 import NotFound from "./views/pages/NotFound";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -10,6 +15,7 @@ import SupervisorPairing from "./views/pages/Student/SupervisorPairing/Superviso
 import ProjectApproved from "./views/pages/Student/ProjectApproved/ProjectApproved";
 import CoordinatorSignup from "./views/pages/Coordinator/Signup/Signup";
 import CoordinatorLogin from "./views/pages/Coordinator/login/login";
+import SupervisorLogin from "./views/pages/Supervisor/Login/Login";
 
 const Routes = () => {
   return (
@@ -18,9 +24,12 @@ const Routes = () => {
         <ErrorBoundary>
           <Switch>
             <Route path="/" exact component={StudentSignup} />
-            <Route path="/login" component={StudentLogin} />
+            <Route path="/student/signup" exact component={StudentSignup} />
+            <Route path="/student/login" component={StudentLogin} />
             <Route path="/coordinator/signup" component={CoordinatorSignup} />
             <Route path="/coordinator/login" component={CoordinatorLogin} />
+            <Route path="/coordinator/login" component={CoordinatorLogin} />
+            <Route path="/supervisor/login" component={SupervisorLogin} />
             <Route path="/profile/avatar" component={AvatarUpload} />
             <Route path="/project/setup" component={ProjectDetails} />
             <Route path="/project/pairing" component={SupervisorPairing} />

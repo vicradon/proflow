@@ -1,3 +1,4 @@
+import { Button } from "react-bootstrap";
 import Images from "../../../../components/Images";
 import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate";
 
