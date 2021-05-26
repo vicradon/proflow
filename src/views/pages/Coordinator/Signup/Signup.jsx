@@ -5,7 +5,7 @@ import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate"
 import Images from "../../../../components/Images.js";
 import SignupSuccessModal from "../../../../components/SignupSuccessModal";
 
-function StudentSignup() {
+function CoordinatorSignup() {
   const [showSuccessModal, setSuccessModal] = useState(false);
   return (
     <GeneralTemplate>
@@ -101,4 +101,4 @@ function StudentSignup() {
   );
 }
 
-export default StudentSignup;
+export default CoordinatorSignup;
