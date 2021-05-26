@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Form, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate";
-import Images from "../../../../components/Images";
+import Images from "../../../../components/Images.js";
 import SignupSuccessModal from "../../../../components/SignupSuccessModal";
 
 function StudentSignup() {
@@ -10,15 +10,31 @@ function StudentSignup() {
   return (
     <GeneralTemplate>
       <h3>
-        We make it easy for you to <br /> succeed in your project{" "}
+        We make it easy for you to <br /> coordinate students project{" "}
       </h3>
       <p className="text-gray">
-        Create a profile and .get access to a system that makes your project
-        submission seamless.
+        Create a profile, onboard project supervisors and .monitor the progress
+        of students.
       </p>
 
       <Form className="mb-4">
         <Form.Row className="mb-3">
+          <Col sm={9} className="d-flex justify-content-between mb-4">
+            <img
+              src={Images.CordAvatar}
+              class="rounded-circle w-25"
+              alt="Cinque Terre"
+            />
+            <div className="ml-5">
+              <Form.Group className="d-flex justify-content-center align-items-center">
+                <Form.Control placeholder="upload file" />
+                <Button className="w-50 ml-4">Upload</Button>
+              </Form.Group>
+              <p className="text-gray d-block">
+                300 x 300px recommended Jpgs and Png supported
+              </p>
+            </div>
+          </Col>
           <Col sm={6}>
             <Form.Label>First Name</Form.Label>
             <Form.Control placeholder="e.g. John" />
@@ -34,20 +50,11 @@ function StudentSignup() {
             <Form.Control placeholder="e.g. Geology" />
           </Col>
           <Col sm={6}>
-            <Form.Label>Reg No</Form.Label>
-            <Form.Control placeholder="e.g. 20124824724" />
-          </Col>
-        </Form.Row>
-        <Form.Row className="mb-3">
-          <Col sm={6}>
             <Form.Label>Password</Form.Label>
-            <Form.Control placeholder="at least 8 characters" />
-          </Col>
-          <Col sm={6}>
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control placeholder="at least 8 characters" />
+            <Form.Control placeholder="e.g. Pass#330!" />
           </Col>
         </Form.Row>
+
         <Form.Row className="mb-3">
           <Form.Check
             type="checkbox"
