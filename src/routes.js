@@ -10,6 +10,7 @@ import SupervisorPairing from "./views/pages/Student/SupervisorPairing/Superviso
 import ProjectApproved from "./views/pages/Student/ProjectApproved/ProjectApproved";
 import CoordinatorSignup from "./views/pages/Coordinator/Signup/Signup";
 import CoordinatorLogin from "./views/pages/Coordinator/login/login";
+import ProjectCategory from "./views/pages/Coordinator/ProjectCategory/ProjectCategory";
 
 const Routes = () => {
   return (
@@ -21,6 +22,10 @@ const Routes = () => {
             <Route path="/login" component={StudentLogin} />
             <Route path="/coordinator/signup" component={CoordinatorSignup} />
             <Route path="/coordinator/login" component={CoordinatorLogin} />
+            <Route
+              path="/coordinator/project/add"
+              component={ProjectCategory}
+            />
             <Route path="/profile/avatar" component={AvatarUpload} />
             <Route path="/project/setup" component={ProjectDetails} />
             <Route path="/project/pairing" component={SupervisorPairing} />
