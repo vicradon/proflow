@@ -8,6 +8,7 @@ import SupervisorPairing from "../assets/images/supervisor-pairing.png";
 import ProjectApprovedCheckmark from "../assets/images/project-approved-checkmark.png";
 import ProjectRejectedCrossmark from "../assets/images/project-rejected-crossmark.png";
 import ProjectPendingNullmark from "../assets/images/project-pending-nullmark.png";
+import CordAvatar from "../assets/images/cord-avatar.png";
 
 export default {
   TextLogo,
@@ -20,4 +21,5 @@ export default {
   ProjectApprovedCheckmark,
   ProjectRejectedCrossmark,
   ProjectPendingNullmark,
+  CordAvatar,
 };
