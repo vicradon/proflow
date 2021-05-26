@@ -1,0 +1,10 @@
+.sidenav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 200px;
+  height: 100vh;
+}
+.main_content {
+  margin-left: 200px;
+}

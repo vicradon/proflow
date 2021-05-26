@@ -1,4 +1,5 @@
 import TextLogo from "../assets/icons/text-logo.png";
+import TextLogoWhite from "../assets/icons/text-logo-white.png";
 import GoogleLogo from "../assets/icons/google-logo.svg";
 import FacebookLogo from "../assets/icons/facebook-logo.svg";
 import HorizontalLine from "../assets/icons/horizontal-line.svg";
@@ -12,6 +13,7 @@ import CordAvatar from "../assets/images/cord-avatar.png";
 
 export default {
   TextLogo,
+  TextLogoWhite,
   GoogleLogo,
   FacebookLogo,
   HorizontalLine,
