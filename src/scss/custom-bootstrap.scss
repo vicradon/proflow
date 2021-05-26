@@ -1,0 +1,27 @@
+$primary: #00aeff;
+$secondary: #084482;
+$light: #f4f8fd;
+$success: #08cb04;
+$warning: #dfc900;
+$dark: #353a45;
+$danger: #cb0404;
+
+$enable-responsive-font-sizes: true;
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) { ... }
+
+Medium devices (tablets, 768px and up)
+@media (min-width: 768px) { ... }
+
+Large devices (desktops, 992px and up)
+@media (min-width: 992px) { ... }
+
+Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) { ... } */
+
+@import "~bootstrap/scss/bootstrap.scss";
