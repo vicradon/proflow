@@ -6,6 +6,8 @@ import StudentSignup from "./views/pages/Student/Signup/Signup";
 import StudentLogin from "./views/pages/Student/Login/Login";
 import AvatarUpload from "./views/pages/Student/AvatarUpload/AvatarUpload";
 import ProjectDetails from "./views/pages/Student/ProjectDetails/ProjectDetails";
+import CoordinatorSignup from "./views/pages/Coordinator/Signup/Signup";
+import CoordinatorLogin from "./views/pages/Coordinator/login/login";
 
 const Routes = () => {
   return (
@@ -15,6 +17,8 @@ const Routes = () => {
           <Switch>
             <Route path="/" exact component={StudentSignup} />
             <Route path="/login" component={StudentLogin} />
+            <Route path="/coordinator/signup" component={CoordinatorSignup} />
+            <Route path="/coordinator/login" component={CoordinatorLogin} />
             <Route path="/profile/avatar" component={AvatarUpload} />
             <Route path="/project/setup" component={ProjectDetails} />
             <Route path="*" component={NotFound} />

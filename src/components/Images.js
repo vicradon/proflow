@@ -4,6 +4,7 @@ import FacebookLogo from "../assets/icons/facebook-logo.svg";
 import HorizontalLine from "../assets/icons/horizontal-line.svg";
 import Checkmark from "../assets/icons/checkmark.svg";
 import DefaultAvatar from "../assets/images/default-avatar.png";
+import CordAvatar from "../assets/images/cord-avatar.png";
 
 export default {
   TextLogo,
@@ -12,4 +13,5 @@ export default {
   HorizontalLine,
   Checkmark,
   DefaultAvatar,
+  CordAvatar,
 };
