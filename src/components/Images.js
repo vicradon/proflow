@@ -4,6 +4,10 @@ import FacebookLogo from "../assets/icons/facebook-logo.svg";
 import HorizontalLine from "../assets/icons/horizontal-line.svg";
 import Checkmark from "../assets/icons/checkmark.svg";
 import DefaultAvatar from "../assets/images/default-avatar.png";
+import SupervisorPairing from "../assets/images/supervisor-pairing.png";
+import ProjectApprovedCheckmark from "../assets/images/project-approved-checkmark.png";
+import ProjectRejectedCrossmark from "../assets/images/project-rejected-crossmark.png";
+import ProjectPendingNullmark from "../assets/images/project-pending-nullmark.png";
 
 export default {
   TextLogo,
@@ -12,4 +16,8 @@ export default {
   HorizontalLine,
   Checkmark,
   DefaultAvatar,
+  SupervisorPairing,
+  ProjectApprovedCheckmark,
+  ProjectRejectedCrossmark,
+  ProjectPendingNullmark,
 };
