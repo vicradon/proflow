@@ -1,7 +1,10 @@
 import axios from "axios";
 
 const maxios = axios.create({
-  baseURL: "",
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:8000/api"
+      : "https://proflow.osinachi.me/api",
 });
 
 maxios.defaults.headers.common["Content-Type"] = "application/json";
