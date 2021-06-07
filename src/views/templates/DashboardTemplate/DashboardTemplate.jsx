@@ -2,9 +2,9 @@ import styles from "./DashboardTemplate.module.css";
 import DashboardSidenav from "../../../components/DashboardSidenav/DashboardSidenav.jsx";
 import DashboardNavbar from "../../../components/DashboardNavbar/DashboardNavbar.jsx";
 
-function DashboardTemplate({ children }) {
+function DashboardTemplate({ children, ...props }) {
   return (
-    <div>
+    <div {...props}>
       <div className={styles.sidenav}>
         <DashboardSidenav />
       </div>

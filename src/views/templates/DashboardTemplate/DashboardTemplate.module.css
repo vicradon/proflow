@@ -7,4 +7,6 @@
 }
 .main_content {
   margin-left: 200px;
+  background-color:#F4F4F4;
+  min-height: 100vh;
 }
