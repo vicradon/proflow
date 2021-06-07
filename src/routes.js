@@ -18,6 +18,7 @@ import CoordinatorLogin from "./views/pages/Coordinator/login/login";
 import ProjectCategory from "./views/pages/Coordinator/ProjectCategory/ProjectCategory";
 import SupervisorLogin from "./views/pages/Supervisor/Login/Login";
 import CoordinatorDashboard from "./views/pages/Coordinator/Dashboard/Dashboard";
+import SigninOption from "./views/pages/SigninOption";
 
 const Routes = () => {
   return (
@@ -25,7 +26,7 @@ const Routes = () => {
       <Router>
         <ErrorBoundary>
           <Switch>
-            <Route path="/" exact component={StudentSignup} />
+            <Route path="/" exact component={SigninOption} />
             <Route path="/student/signup" exact component={StudentSignup} />
             <Route path="/student/login" component={StudentLogin} />
             <Route path="/coordinator/signup" component={CoordinatorSignup} />
@@ -41,6 +42,10 @@ const Routes = () => {
             <Route path="/project/pairing" component={SupervisorPairing} />
             <Route path="/project/status" component={ProjectApproved} />
 
+            <Route
+              path="/coordinator/dashboard"
+              component={CoordinatorDashboard}
+            />
             <Route
               path="/coordinator/dashboard/supervisors"
               component={CoordinatorDashboard}
