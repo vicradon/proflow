@@ -1,8 +1,23 @@
+import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import Images from "../../../../components/Images";
+import maxios from "../../../../utils/maxios";
 import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate";
 
-function ProjectApproved() {
+function ProjectStatus() {
+  const { supervisor_id } = useParams();
+  const [supervisorName, setSupervisorName] = useState("");
+  const fetchSupervisor = async () => {
+    const { data } = await maxios.get(`/users/${supervisor_id}`);
+    return data.name;
+  };
+
+  useEffect(async () => {
+    const name = await fetchSupervisor();
+    setSupervisorName(name);
+  }, []);
+
   return (
     <GeneralTemplate noAuth>
       <div className="d-flex flex-column align-items-center">
@@ -25,4 +40,4 @@ function ProjectApproved() {
   );
 }
 
-export default ProjectApproved;
+export default ProjectStatus;

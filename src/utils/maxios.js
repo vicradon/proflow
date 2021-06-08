@@ -24,4 +24,25 @@ maxios.interceptors.response.use(
   }
 );
 
+maxios.saveToLocalStorage = (payload) => {
+  localStorage.setItem("jwt", payload.access_token);
+  localStorage.setItem("user", JSON.stringify(payload.user));
+
+  const { profile_type } = payload.user;
+  switch (profile_type) {
+    case "App\\Models\\Student": {
+      localStorage.setItem("role", "student");
+      break;
+    }
+    case "App\\Models\\Supervisor": {
+      localStorage.setItem("role", "supervisor");
+      break;
+    }
+    case "App\\Models\\Coordinator": {
+      localStorage.setItem("role", "coordinator");
+      break;
+    }
+  }
+};
+
 export default maxios;

@@ -4,7 +4,7 @@ import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTem
 import Images from "../../../../components/Images.js";
 import styles from "./styles.module.css";
 
-function CoordinatorDashboard() {
+function StudentDashboard() {
   return (
     <DashboardTemplate>
       <div className="mx-4">
@@ -103,4 +103,4 @@ function CoordinatorDashboard() {
   );
 }
 
-export default CoordinatorDashboard;
+export default StudentDashboard;

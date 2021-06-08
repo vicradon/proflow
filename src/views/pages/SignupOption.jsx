@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import GeneralTemplate from "../templates/GeneralTemplate/GeneralTemplate";
 
-function SigninOption() {
+function SignupOption() {
   return (
     <GeneralTemplate>
-      <h3 className="text-center">Sign in as</h3>
+      <h3 className="text-center">Sign up as</h3>
 
       <div className="d-flex justify-content-center">
         <Link to="/student/signup">
@@ -19,4 +19,4 @@ function SigninOption() {
   );
 }
 
-export default SigninOption;
+export default SignupOption;

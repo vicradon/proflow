@@ -57,10 +57,10 @@ function CoordinatorSignup() {
       localStorage.setItem("jwt", data.access_token);
       history.push("/coordinator/dashboard");
     } catch (error) {
-      const errors = Object.keys(error.response.data.errors)
+      const errors = error.response.data.errors
         ? Object.values(error.response.data.errors).join("\n")
         : "An error occured, our engineers are working hard to fix it";
-      console.log(error.response.data.errors);
+
       setError(errors);
       setFormSubmitted(false);
     }
@@ -204,27 +204,8 @@ function CoordinatorSignup() {
         </Button>
       </Form>
 
-      <div className="d-flex justify-content-center align-items-baseline">
-        <img
-          src={Images.HorizontalLine}
-          className="pb-1"
-          alt="horizontal line"
-        />
-        <p className="mx-2">OR</p>
-        <img
-          src={Images.HorizontalLine}
-          className="pb-1"
-          alt="horizontal line"
-        />
-      </div>
-
-      <div className="d-flex justify-content-center align-items-baseline mb-4">
-        <img className="mx-4" src={Images.FacebookLogo} alt="Facebook Logo" />
-        <img className="mx-4" src={Images.GoogleLogo} alt="Google Logo" />
-      </div>
-
       <div className="d-flex align-items-baseline justify-content-center">
-        <p className="mx-1">Don’t have an account with us? </p>
+        <p className="mx-1">Already have an account with us?</p>
         <Link className="mx-1" to="#">
           Sign In
         </Link>

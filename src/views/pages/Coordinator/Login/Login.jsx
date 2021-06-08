@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import maxios from "../../../../utils/maxios";
 import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate";
 
-function SupervisorLogin() {
+function CoordinatorLogin() {
   const [formDetails, setFormDetails] = useState({ email: "", password: "" });
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -22,12 +22,12 @@ function SupervisorLogin() {
 
       const { data } = await maxios.post("/login", formDetails);
 
-      if (data.user.profile_type !== "App\\Models\\Supervisor") {
-        setError("Only supervisors can use this section");
+      if (data.user.profile_type !== "App\\Models\\Coordinator") {
+        setError("Only coordinators can use this section");
         setFormSubmitted(false);
       } else {
         maxios.saveToLocalStorage(data);
-        history.push("/supervisor/dashboard");
+        history.push("/coordinator/dashboard");
       }
     } catch (error) {
       setError(error.response.data.message);
@@ -38,7 +38,7 @@ function SupervisorLogin() {
     <GeneralTemplate>
       <h3>Welcome back</h3>
       <p className="text-gray">
-        Help your students complete their projects seamlessly
+        Onboard project supervisors and monitor students progress
       </p>
 
       <Form onSubmit={handleLogin} className="mb-4 d-block">
@@ -85,7 +85,7 @@ function SupervisorLogin() {
 
       <div className="d-flex align-items-baseline justify-content-center">
         <p className="mx-1">Don’t have an account with us? </p>
-        <Link className="mx-1" to="/supervisor/signup">
+        <Link className="mx-1" to="/coordinator/signup">
           Sign Up
         </Link>
       </div>
@@ -93,4 +93,4 @@ function SupervisorLogin() {
   );
 }
 
-export default SupervisorLogin;
+export default CoordinatorLogin;

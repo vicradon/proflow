@@ -7,6 +7,7 @@ import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate"
 import Images from "../../../../components/Images";
 import SignupSuccessModal from "../../../../components/SignupSuccessModal";
 import maxios from "../../../../utils/maxios";
+import SubmitButton from "../../../../components/SubmitButton";
 
 function StudentSignup() {
   const [showSuccessModal, setSuccessModal] = useState(false);
@@ -207,9 +208,7 @@ function StudentSignup() {
           />
         </Form.Row>
 
-        <Button type="submit" className="w-100">
-          Sign up
-        </Button>
+        <SubmitButton className="w-100">Sign up</SubmitButton>
       </Form>
 
       <div className="d-flex justify-content-center align-items-baseline">

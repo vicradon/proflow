@@ -1,56 +1,91 @@
-import { Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Button, Form, Spinner } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
+import maxios from "../../../../utils/maxios";
 import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate";
-import Images from "../../../../components/Images";
 
 function StudentLogin() {
+  const [formDetails, setFormDetails] = useState({ email: "", password: "" });
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const handleInputChange = ({ target }) => {
+    const { name, value } = target;
+    setFormDetails({ ...formDetails, [name]: value });
+  };
+  const history = useHistory();
+
+  const handleLogin = async (event) => {
+    try {
+      event.preventDefault();
+      setError("");
+      setFormSubmitted(true);
+
+      const { data } = await maxios.post("/login", formDetails);
+
+      if (data.user.profile_type !== "App\\Models\\Student") {
+        setError("Only students can use this page");
+        setFormSubmitted(false);
+      } else {
+        maxios.saveToLocalStorage(data);
+        history.push("/student/dashboard");
+      }
+    } catch (error) {
+      setError(error.response.data.message);
+      setFormSubmitted(false);
+    }
+  };
   return (
     <GeneralTemplate>
-      <h3>Welcome Back!</h3>
+      <h3>Welcome back</h3>
       <p className="text-gray">
-        Complete your projects seamlessly. Keep up with life
+        Onboard project supervisors and monitor students progress
       </p>
 
-      <Form className="mb-4">
-        <Form.Group className="mb-3">
-          <Form.Label>Reg No</Form.Label>
-          <Form.Control placeholder="e.g. 20124824724" />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Reg No</Form.Label>
-          <Form.Control placeholder="e.g. 20124824724" />
-        </Form.Group>
-        <Form.Group className="mb-3 d-flex justify-content-between align-items-baseline">
+      <Form onSubmit={handleLogin} className="mb-4 d-block">
+        <Form.Row className="mb-3 w-100">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            onChange={handleInputChange}
+            name="email"
+            placeholder="e.g. John"
+          />
+        </Form.Row>
+        <Form.Row className="mb-3 w-100">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            name="password"
+            type="password"
+            placeholder="e.g. Pass#45!"
+            onChange={handleInputChange}
+          />
+        </Form.Row>
+
+        <Form.Row className="mb-3 d-flex justify-content-between">
           <Form.Check type="checkbox" label="Remember me" />
 
-          <Link to="#">Forgot Password</Link>
-        </Form.Group>
+          <Link className="ml-30" to="#">
+            Forgot Password
+          </Link>
+        </Form.Row>
 
-        <Button className="w-100">Login</Button>
+        <p className="text-danger">{error}</p>
+        <Button
+          type="submit"
+          className="w-100 d-flex justify-content-center align-items-center"
+          disabled={formSubmitted}
+        >
+          {formSubmitted && (
+            <Spinner className="mr-2" animation="border" role="status">
+              <span className="sr-only">Loading...</span>
+            </Spinner>
+          )}
+          <span>Login</span>
+        </Button>
       </Form>
 
-      <div className="d-flex justify-content-center align-items-baseline">
-        <img
-          src={Images.HorizontalLine}
-          className="pb-1"
-          alt="horizontal line"
-        />
-        <p className="mx-2">OR</p>
-        <img
-          src={Images.HorizontalLine}
-          className="pb-1"
-          alt="horizontal line"
-        />
-      </div>
-
-      <div className="d-flex justify-content-center align-items-baseline mb-4">
-        <img className="mx-4" src={Images.FacebookLogo} alt="Facebook Logo" />
-        <img className="mx-4" src={Images.GoogleLogo} alt="Google Logo" />
-      </div>
-
       <div className="d-flex align-items-baseline justify-content-center">
-        <p className="mx-1">Already have an account?</p>
-        <Link className="mx-1" to="#">
+        <p className="mx-1">Don’t have an account with us? </p>
+        <Link className="mx-1" to="/student/signup">
           Sign Up
         </Link>
       </div>

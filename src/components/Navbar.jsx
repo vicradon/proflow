@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Button, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Images from "./Images.js";
 
@@ -9,17 +9,38 @@ function Navbar({ noAuth }) {
       <img src={Images.TextLogo} alt="proflow" />
 
       {!noAuth && (
-        <div>
-          <Link to="/login">
-            <Button className="mx-2" variant="light-outline">
-              Sign in
-            </Button>
-          </Link>
-          <Link to="/">
-            <Button className="mx-2" variant="primary">
+        <div className="d-flex justify-content-between">
+          <Dropdown>
+            <Dropdown.Toggle className="mx-2" variant="light-outline">
+              Login
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item as={Link} to="/coordinator/login">
+                As Coordinator
+              </Dropdown.Item>
+              <Dropdown.Item as={Link} to="/supervisor/login">
+                As Supervisor
+              </Dropdown.Item>
+              <Dropdown.Item as={Link} to="/student/login">
+                As Student
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          <Dropdown>
+            <Dropdown.Toggle className="mx-2" variant="primary">
               Sign up
-            </Button>
-          </Link>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item as={Link} to="/coordinator/signup">
+                As Coordinator
+              </Dropdown.Item>
+              <Dropdown.Item as={Link} to="/student/signup">
+                As Student
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       )}
     </div>

@@ -1,9 +1,11 @@
 import { Button, Form } from "react-bootstrap";
 import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Images from "../../../../components/Images";
 
 function SupervisorPairing() {
+  const { supervisor_id } = useParams();
+
   return (
     <GeneralTemplate noAuth>
       <div className="d-flex flex-column align-items-center">

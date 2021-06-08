@@ -4,7 +4,7 @@ import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTem
 import Images from "../../../../components/Images.js";
 import styles from "./styles.module.css";
 
-function CoordinatorDashboard() {
+function SupervisorDashboard() {
   return (
     <DashboardTemplate>
       <div className="mx-4">
@@ -20,7 +20,7 @@ function CoordinatorDashboard() {
               placeholder="Search for Supervisors"
             />
 
-            <label className="ml-4" for="exampleFormControlSelect1">
+            <label className="ml-4" htmlFor="exampleFormControlSelect1">
               Filter:
             </label>
             <select
@@ -103,4 +103,4 @@ function CoordinatorDashboard() {
   );
 }
 
-export default CoordinatorDashboard;
+export default SupervisorDashboard;

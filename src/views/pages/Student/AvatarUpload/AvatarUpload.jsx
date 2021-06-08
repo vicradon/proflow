@@ -19,18 +19,15 @@ function AvatarUpload() {
       const formData = new FormData();
       formData.append("avatar", avatar);
 
-      const { data } = await maxios.post(
-        "/register?role=coordinator",
-        formData
-      );
+      const { data } = await maxios.post("/users/avatar", formData);
 
       localStorage.setItem("jwt", data.access_token);
-      history.push("/coordinator/dashboard");
+      history.push("/project/setup");
     } catch (error) {
-      const errors = Object.keys(error.response.data.errors)
+      const errors = error.response.data.errors
         ? Object.values(error.response.data.errors).join("\n")
         : "An error occured, our engineers are working hard to fix it";
-      console.log(error.response.data.errors);
+
       setError(errors);
       setFormSubmitted(false);
     }
