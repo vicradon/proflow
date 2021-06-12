@@ -1,102 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate";
 import Images from "../../../../components/Images.js";
 import styles from "./styles.module.css";
+import ChapterCard from "../../../../components/ChapterCard/ChapterCard";
 
 function StudentDashboard() {
+  const [chapters, setChapters] = useState([
+    {
+      index: 1,
+      status: "approved",
+    },
+    {
+      index: 2,
+      status: "approved",
+    },
+    {
+      index: 3,
+      status: "rejected",
+    },
+    {
+      index: 4,
+      status: "pending",
+    },
+    {
+      index: 5,
+      status: "incomplete",
+    },
+  ]);
   return (
     <DashboardTemplate>
       <div className="mx-4">
-        <div className="rounded d-flex justify-content-between flex-wrap align-items-center">
-          <div className="m-5 d-flex justify-content-center bg-white px-5 py-2 w-100 mx-auto align-items-center">
-            <div>
-              <h5 className="text-primary">Supervisors</h5>
-              <p>Showing all supervisors</p>
-            </div>
-            <input
-              type="text"
-              className="form-control ml-3"
-              placeholder="Search for Supervisors"
-            />
+        <h3>Project Progress: 70%</h3>
 
-            <label className="ml-4" for="exampleFormControlSelect1">
-              Filter:
-            </label>
-            <select
-              className="form-control ml-4"
-              placeholder="All Categories"
-              id="exampleFormControlSelect1"
-            >
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-          </div>
-        </div>
-        <div className={styles.cards}>
-          <div
-            className={
-              "d-flex flex-column p-5 justify-content-center text-center align-content-center m-2 bg-white " +
-              styles.checkrel
-            }
-          >
-            <div className={styles.groupcard}>Telecom</div>
-            <img
-              src={Images.CordAvatar}
-              className="rounded-circle mx-auto w-50"
-            ></img>
-            <h3>Dr. Chika Ebele</h3>
-            <p>Students: 17</p>
-            <Link to="#">View Details</Link>
-          </div>
-          <div
-            className={
-              "d-flex flex-column p-5 justify-content-center text-center align-content-center m-2 bg-white " +
-              styles.checkrel
-            }
-          >
-            <div className={styles.groupcard}>Telecom</div>{" "}
-            <img
-              src={Images.CordAvatar}
-              className="rounded-circle mx-auto w-50"
-            ></img>
-            <h3>Dr. Chika Ebele</h3>
-            <p>Students: 17</p>
-            <Link to="#">View Details</Link>
-          </div>
-          <div
-            className={
-              "d-flex flex-column p-5 justify-content-center text-center align-content-center m-2 bg-white " +
-              styles.checkrel
-            }
-          >
-            <div className={styles.groupcard}>Telecom</div>{" "}
-            <img
-              src={Images.CordAvatar}
-              className="rounded-circle mx-auto w-50"
-            ></img>
-            <h3>Dr. Chika Ebele</h3>
-            <p>Students: 17</p>
-            <Link to="#">View Details</Link>
-          </div>
-          <div
-            className={
-              "d-flex flex-column p-5 justify-content-center text-center align-content-center m-2 bg-white " +
-              styles.checkrel
-            }
-          >
-            <div className={styles.groupcard}>Research</div>
-            <img
-              src={Images.CordAvatar}
-              className="rounded-circle mx-auto w-50"
-            ></img>
-            <h3>Dr. Chika Ebele</h3>
-            <p>Students: 17</p>
-            <Link to="#">View Details</Link>
-          </div>
+        <div className="d-flex justify-content-between align-items-center flex-wrap">
+          {chapters.map((chapter) => {
+            return (
+              <div key={chapter.index} className="mb-5">
+                <ChapterCard status={chapter.status} index={chapter.index} />
+              </div>
+            );
+          })}
         </div>
       </div>
     </DashboardTemplate>

@@ -1,103 +1,79 @@
-import React from "react";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Table } from "react-bootstrap";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate";
 import Images from "../../../../components/Images.js";
 import styles from "./styles.module.css";
+import { MdMoreVert } from "react-icons/md";
 
 function SupervisorDashboard() {
+  const [students, setStudents] = useState([
+    {
+      name: "Achonwa Alvan",
+      department: "CSC",
+      category: "Telecom",
+      date_added: "Feb 3, 2020",
+    },
+    {
+      name: "Chizo Nwazuo",
+      department: "CSC",
+      category: "Systems",
+      date_added: "Feb 3, 2020",
+    },
+    {
+      name: "Collins Adeleke",
+      department: "CSC",
+      category: "IoT",
+      date_added: "Feb 3, 2020",
+    },
+    {
+      name: "Elendu Christiana",
+      department: "CSC",
+      category: "Research",
+      date_added: "Feb 3, 2020",
+    },
+  ]);
   return (
     <DashboardTemplate>
       <div className="mx-4">
-        <div className="rounded d-flex justify-content-between flex-wrap align-items-center">
-          <div className="m-5 d-flex justify-content-center bg-white px-5 py-2 w-100 mx-auto align-items-center">
-            <div>
-              <h5 className="text-primary">Supervisors</h5>
-              <p>Showing all supervisors</p>
-            </div>
-            <input
-              type="text"
-              className="form-control ml-3"
-              placeholder="Search for Supervisors"
-            />
+        <div className="d-flex flex-column">
+          <h5 className="mx-2">Total Students: 17</h5>
+          <h5 className="mx-2">Paired Students: 15</h5>
+        </div>
 
-            <label className="ml-4" htmlFor="exampleFormControlSelect1">
-              Filter:
-            </label>
-            <select
-              className="form-control ml-4"
-              placeholder="All Categories"
-              id="exampleFormControlSelect1"
-            >
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-          </div>
-        </div>
-        <div className={styles.cards}>
-          <div
-            className={
-              "d-flex flex-column p-5 justify-content-center text-center align-content-center m-2 bg-white " +
-              styles.checkrel
-            }
-          >
-            <div className={styles.groupcard}>Telecom</div>
-            <img
-              src={Images.CordAvatar}
-              className="rounded-circle mx-auto w-50"
-            ></img>
-            <h3>Dr. Chika Ebele</h3>
-            <p>Students: 17</p>
-            <Link to="#">View Details</Link>
-          </div>
-          <div
-            className={
-              "d-flex flex-column p-5 justify-content-center text-center align-content-center m-2 bg-white " +
-              styles.checkrel
-            }
-          >
-            <div className={styles.groupcard}>Telecom</div>{" "}
-            <img
-              src={Images.CordAvatar}
-              className="rounded-circle mx-auto w-50"
-            ></img>
-            <h3>Dr. Chika Ebele</h3>
-            <p>Students: 17</p>
-            <Link to="#">View Details</Link>
-          </div>
-          <div
-            className={
-              "d-flex flex-column p-5 justify-content-center text-center align-content-center m-2 bg-white " +
-              styles.checkrel
-            }
-          >
-            <div className={styles.groupcard}>Telecom</div>{" "}
-            <img
-              src={Images.CordAvatar}
-              className="rounded-circle mx-auto w-50"
-            ></img>
-            <h3>Dr. Chika Ebele</h3>
-            <p>Students: 17</p>
-            <Link to="#">View Details</Link>
-          </div>
-          <div
-            className={
-              "d-flex flex-column p-5 justify-content-center text-center align-content-center m-2 bg-white " +
-              styles.checkrel
-            }
-          >
-            <div className={styles.groupcard}>Research</div>
-            <img
-              src={Images.CordAvatar}
-              className="rounded-circle mx-auto w-50"
-            ></img>
-            <h3>Dr. Chika Ebele</h3>
-            <p>Students: 17</p>
-            <Link to="#">View Details</Link>
-          </div>
-        </div>
+        <Table className={"bg-white " + styles.table} hover responsive>
+          <thead>
+            <tr>
+              <th className="text-primary">Student Name</th>
+              <th className="text-primary">Department</th>
+              <th className="text-primary">Category</th>
+              <th className="text-primary">Date Added</th>
+              <th className="text-primary">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {students.map((student, index) => {
+              return (
+                <tr key={index}>
+                  <td className="d-flex align-items-center">
+                    <img
+                      src={`https://robohash.org/${student.category}.png`}
+                      alt={student.name}
+                      className={styles.avatar}
+                    />
+                    <span className="ml-1">{student.name}</span>
+                  </td>
+                  <td>{student.department}</td>
+                  <td>{student.category}</td>
+                  <td>{student.date_added}</td>
+                  <td>
+                    <MdMoreVert />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
       </div>
     </DashboardTemplate>
   );

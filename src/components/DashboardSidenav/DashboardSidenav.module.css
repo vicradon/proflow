@@ -2,3 +2,13 @@
   background-color: #084482;
   height: 100%;
 }
+.hr {
+  width: 90%;
+  background-color: white;
+  margin-bottom: 3rem;
+}
+.active_link {
+  background-color: var(--primary);
+  color: white;
+  padding-left: 1rem;
+}

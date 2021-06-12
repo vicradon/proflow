@@ -45,7 +45,7 @@ const Routes = () => {
             {/* Supervisor Routes */}
             <Route path="/supervisor/login" component={SupervisorLogin} />
             <Route
-              path="/supervisor/dashboard"
+              path="/supervisor/students"
               component={SupervisorDashboard}
             />
 
