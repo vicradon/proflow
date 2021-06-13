@@ -36,7 +36,9 @@ function DashboardSidenav() {
         >
           Students
         </Nav.Link>
-        <Button variant="outline-primary"> Logout</Button>
+        <Button variant="transparent" className="text-left ml-3 text-primary">
+          Logout
+        </Button>
       </Nav>
     </div>
   );

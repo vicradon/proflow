@@ -1,29 +1,11 @@
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-gap: 1rem;
-}
-
-.groupcard {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: #337ab7;
-  color: white;
-  text-align: center;
-  padding: 6px;
-  padding-left: 50px;
-  padding-right: 50px;
-  border-radius: 0px 20px 20px 0px;
-}
-
-.checkrel {
-  position: relative;
-}
 .avatar {
   border-radius: 30%;
   width: 50px;
 }
 .table :global(td) {
   color: gray;
+}
+
+.search_container {
+  background-color: #042241;
 }

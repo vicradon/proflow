@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Table } from "react-bootstrap";
+import { Table, InputGroup, FormControl } from "react-bootstrap";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate";
 import Images from "../../../../components/Images.js";
 import styles from "./styles.module.css";
 import { MdMoreVert } from "react-icons/md";
+import { FiSearch } from "react-icons/fi";
 
 function SupervisorDashboard() {
   const [students, setStudents] = useState([
@@ -41,39 +42,55 @@ function SupervisorDashboard() {
           <h5 className="mx-2">Paired Students: 15</h5>
         </div>
 
-        <Table className={"bg-white " + styles.table} hover responsive>
-          <thead>
-            <tr>
-              <th className="text-primary">Student Name</th>
-              <th className="text-primary">Department</th>
-              <th className="text-primary">Category</th>
-              <th className="text-primary">Date Added</th>
-              <th className="text-primary">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {students.map((student, index) => {
-              return (
-                <tr key={index}>
-                  <td className="d-flex align-items-center">
-                    <img
-                      src={`https://robohash.org/${student.category}.png`}
-                      alt={student.name}
-                      className={styles.avatar}
-                    />
-                    <span className="ml-1">{student.name}</span>
-                  </td>
-                  <td>{student.department}</td>
-                  <td>{student.category}</td>
-                  <td>{student.date_added}</td>
-                  <td>
-                    <MdMoreVert />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
+        <div>
+          <div className={styles.search_container}>
+            <InputGroup className="mb-3">
+              <InputGroup.Prepend>
+                <InputGroup.Text id="basic-addon1">
+                  <FiSearch />
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+              <FormControl
+                placeholder="Username"
+                aria-label="Username"
+                aria-describedby="basic-addon1"
+              />
+            </InputGroup>
+          </div>
+          <Table className={"bg-white " + styles.table} hover responsive>
+            <thead>
+              <tr>
+                <th className="text-primary">Student Name</th>
+                <th className="text-primary">Department</th>
+                <th className="text-primary">Category</th>
+                <th className="text-primary">Date Added</th>
+                <th className="text-primary">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {students.map((student, index) => {
+                return (
+                  <tr key={index}>
+                    <td className="d-flex align-items-center p-3">
+                      <img
+                        src={`https://robohash.org/${student.category}.png`}
+                        alt={student.name}
+                        className={styles.avatar}
+                      />
+                      <span className="ml-1">{student.name}</span>
+                    </td>
+                    <td>{student.department}</td>
+                    <td>{student.category}</td>
+                    <td>{student.date_added}</td>
+                    <td>
+                      <MdMoreVert />
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </div>
       </div>
     </DashboardTemplate>
   );
