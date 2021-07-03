@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import React, { Fragment, useState } from "react";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate";
-import Images from "../../../../components/Images.js";
-import styles from "./styles.module.css";
 import ChapterCard from "../../../../components/ChapterCard/ChapterCard";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Button } from "react-bootstrap";
 
 function StudentDashboard() {
   const [chapters, setChapters] = useState([
@@ -28,15 +27,21 @@ function StudentDashboard() {
       status: "incomplete",
     },
   ]);
+
   return (
     <DashboardTemplate>
       <div className="mx-4">
-        <h3>Project Progress: 70%</h3>
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h3>Project Progress: 70%</h3>
+          <Link to="/student/project-upload">
+            <Button>Upload project</Button>
+          </Link>
+        </div>
 
         <div className="d-flex justify-content-between align-items-center flex-wrap">
           {chapters.map((chapter) => {
             return (
-              <div key={chapter.index} className="mb-5">
+              <div key={"chapter card " + chapter.index} className="mb-5">
                 <ChapterCard status={chapter.status} index={chapter.index} />
               </div>
             );
@@ -48,3 +53,6 @@ function StudentDashboard() {
 }
 
 export default StudentDashboard;
+/**
+ * The active input should be based on chapter
+ */

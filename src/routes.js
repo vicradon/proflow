@@ -21,6 +21,7 @@ import ProjectCategory from "./views/pages/Coordinator/ProjectCategory/ProjectCa
 import SupervisorLogin from "./views/pages/Supervisor/Login/Login";
 import SignupOption from "./views/pages/SignupOption";
 import SupervisorDashboard from "./views/pages/Supervisor/Dashboard/Dashboard";
+import ProjectUpload from "./views/pages/Student/ProjectUpload/ProjectUpload";
 
 const Routes = () => {
   return (
@@ -34,6 +35,7 @@ const Routes = () => {
             <Route path="/student/signup" exact component={StudentSignup} />
             <Route path="/student/login" component={StudentLogin} />
             <Route path="/student/dashboard" component={StudentDashboard} />
+            <Route path="/student/project-upload" component={ProjectUpload} />
             <Route path="/profile/avatar" component={AvatarUpload} />
             <Route path="/project/setup" component={ProjectDetails} />
             <Route

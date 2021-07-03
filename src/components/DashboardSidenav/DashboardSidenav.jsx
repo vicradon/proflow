@@ -30,6 +30,15 @@ function DashboardSidenav() {
         <Nav.Link
           as={NavLink}
           activeClassName={styles.active_link}
+          to="/student/project-upload"
+          eventKey="project-upload"
+          className={navlink_style}
+        >
+          Project Upload
+        </Nav.Link>
+        <Nav.Link
+          as={NavLink}
+          activeClassName={styles.active_link}
           to="/supervisor/students"
           eventKey="students"
           className={navlink_style}

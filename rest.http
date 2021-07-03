@@ -1,0 +1,14 @@
+POST http://localhost:8000/api/login
+X-Requested-With: XMLHttpRequest
+content-type: application/json
+
+{
+    "email": "hwaters@example.org",
+    "password": "password"
+}
+
+###
+GET http://localhost:8000/api/users
+X-Requested-With: XMLHttpRequest
+content-type: application/json
+Authorization: Bearer 6|0yR9C67S8yLc0I3uKA6fyiLeIzM13bAX8UBc5AkX

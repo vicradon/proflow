@@ -1,0 +1,12 @@
+.pdf_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 1rem;
+  justify-content: center;
+  margin: 1rem 0;
+}
+.pdf_select_area {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  grid-gap: 1rem;
+}

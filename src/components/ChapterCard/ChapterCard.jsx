@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import capitalize from "../../utils/capitalize";
 import styles from "./ChapterCard.module.css";
 
@@ -37,7 +38,11 @@ function ChapterCard({ status, index }) {
           {index}
         </div>
       </div>
-      <Button className="w-100">Download</Button>
+      <Link to="#">
+        <Button variant="info" className="w-100">
+          View
+        </Button>
+      </Link>
     </div>
   );
 }
