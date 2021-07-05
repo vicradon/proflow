@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Images from "../../../../components/Images.js";
 import styles from "./styles.module.css";
-import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
+import { Document, Page } from "react-pdf";
 import { Form, Button, Table } from "react-bootstrap";
 import SubmitButton from "../../../../components/SubmitButton";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate.jsx";
@@ -58,7 +58,7 @@ function ProjectUpload() {
   };
   return (
     <DashboardTemplate>
-      <div className="mx-4">
+      <div className="m-4">
         <Form onSubmit={uploadPdf}>
           <Form.File
             className="mb-2"
@@ -81,7 +81,16 @@ function ProjectUpload() {
                   <Form.Check
                     onChange={handlePageSelect}
                     value={index + 1}
-                    label={`Page ${index + 1}`}
+                    label={`Page ${index + 1} ${
+                      checkValue === 1
+                        ? index ===
+                          chapterRanges[activeChapterSelect].findIndex(
+                            (val) => val === 1
+                          )
+                          ? "(start)"
+                          : "(end)"
+                        : ""
+                    }`}
                     type="checkbox"
                     checked={checkValue === 1}
                   />
