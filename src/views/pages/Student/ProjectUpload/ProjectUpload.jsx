@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Images from "../../../../components/Images.js";
 import styles from "./styles.module.css";
 import { Document, Page } from "react-pdf";
@@ -7,6 +7,7 @@ import SubmitButton from "../../../../components/SubmitButton";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate.jsx";
 
 function ProjectUpload() {
+  const [sideOptionsVisible, setSideOptionsVisible] = useState(false);
   const [formSubmited, setFormSubmited] = useState(false);
   const [error, setError] = useState("");
   const [projectPdf, setProjectPdf] = useState();
@@ -23,9 +24,24 @@ function ProjectUpload() {
   });
   const [activeChapterSelect, setActiveChapterSelect] = useState(1);
 
-  const filteredZeros = (arr) => arr.filter((val) => val !== 0);
+  const [chapterStack, setChapterStack] = useState([]);
+  useEffect(() => {
+    setChapterStack([...chapterStack, activeChapterSelect]);
+    if (chapterStack.length) {
+      const previousChapter = chapterStack[chapterStack.length - 1];
 
+      const startIndex = chapterRanges[previousChapter].findIndex(
+        (val) => val === 1
+      );
+      const endIndex = chapterRanges[previousChapter]
+        .slice(startIndex + 1)
+        .findIndex((val) => val === 1);
+    }
+  }, [activeChapterSelect]);
+
+  const filteredZeros = (arr) => arr.filter((val) => val !== 0);
   const onDocumentLoadSuccess = ({ numPages }) => {
+    setSideOptionsVisible(true);
     setPageCount(numPages);
     setChapterRanges({
       1: Array(numPages).fill(0),
@@ -39,7 +55,7 @@ function ProjectUpload() {
     setProjectPdf(target.files[0]);
   };
   const handleChapterSelect = ({ target }) => {
-    setActiveChapterSelect(target.value);
+    setActiveChapterSelect(Number(target.value));
   };
   const handlePageSelect = ({ target }) => {
     let arr = chapterRanges[activeChapterSelect];
@@ -55,6 +71,20 @@ function ProjectUpload() {
   };
   const uploadPdf = (event) => {
     event.preventDefault();
+  };
+
+  const getPageRanges = () => {
+    const startEnds = {};
+    Object.keys(chapterRanges).forEach((range) => {
+      const start = chapterRanges[range].findIndex((v) => v === 1);
+      const end = chapterRanges[range]
+        .slice(start + 1)
+        .findIndex((v) => v === 1);
+
+      startEnds[range] = [start + 1, end + start + 2];
+    });
+
+    return startEnds;
   };
   return (
     <DashboardTemplate>
@@ -76,101 +106,105 @@ function ProjectUpload() {
               file={projectPdf}
               onLoadSuccess={onDocumentLoadSuccess}
             >
-              {chapterRanges[activeChapterSelect].map((checkValue, index) => (
-                <div key={"Page " + index + 1}>
-                  <Form.Check
-                    onChange={handlePageSelect}
-                    value={index + 1}
-                    label={`Page ${index + 1} ${
-                      checkValue === 1
-                        ? index ===
-                          chapterRanges[activeChapterSelect].findIndex(
-                            (val) => val === 1
-                          )
-                          ? "(start)"
-                          : "(end)"
-                        : ""
-                    }`}
-                    type="checkbox"
-                    checked={checkValue === 1}
-                  />
-                  <Page width={200} pageNumber={index + 1} />
-                </div>
-              ))}
+              {chapterRanges[activeChapterSelect].map((checkValue, index) => {
+                return (
+                  <div key={"Page " + index + 1}>
+                    <Form.Check
+                      onChange={handlePageSelect}
+                      value={index + 1}
+                      label={`Page ${index + 1} ${
+                        checkValue === 1
+                          ? index ===
+                            chapterRanges[activeChapterSelect].findIndex(
+                              (val) => val === 1
+                            )
+                            ? "(start)"
+                            : "(end)"
+                          : ""
+                      }`}
+                      type="checkbox"
+                      checked={checkValue === 1}
+                    />
+                    <Page width={200} pageNumber={index + 1} />
+                  </div>
+                );
+              })}
             </Document>
 
-            <div>
-              <div className="mb-4">
-                <h4>Chapter Select</h4>
-                <Form.Check
-                  type="radio"
-                  name="chapter-select"
-                  value={1}
-                  label="Chapter 1"
-                  onChange={handleChapterSelect}
-                  defaultChecked
-                />
-                <Form.Check
-                  type="radio"
-                  name="chapter-select"
-                  value={2}
-                  label="Chapter 2"
-                  onChange={handleChapterSelect}
-                />
-                <Form.Check
-                  type="radio"
-                  name="chapter-select"
-                  value={3}
-                  label="Chapter 3"
-                  onChange={handleChapterSelect}
-                />
-                <Form.Check
-                  type="radio"
-                  name="chapter-select"
-                  value={4}
-                  label="Chapter 4"
-                  onChange={handleChapterSelect}
-                />
-                <Form.Check
-                  type="radio"
-                  name="chapter-select"
-                  value={5}
-                  label="Chapter 5"
-                  onChange={handleChapterSelect}
-                />
-              </div>
+            {sideOptionsVisible && (
               <div>
-                <h4>Summary</h4>
+                <div className="mb-4">
+                  <h4>Chapter Select</h4>
+                  <Form.Check
+                    type="radio"
+                    name="chapter-select"
+                    value={1}
+                    label="Chapter 1"
+                    onChange={handleChapterSelect}
+                    defaultChecked
+                  />
+                  <Form.Check
+                    type="radio"
+                    name="chapter-select"
+                    value={2}
+                    label="Chapter 2"
+                    onChange={handleChapterSelect}
+                  />
+                  <Form.Check
+                    type="radio"
+                    name="chapter-select"
+                    value={3}
+                    label="Chapter 3"
+                    onChange={handleChapterSelect}
+                  />
+                  <Form.Check
+                    type="radio"
+                    name="chapter-select"
+                    value={4}
+                    label="Chapter 4"
+                    onChange={handleChapterSelect}
+                  />
+                  <Form.Check
+                    type="radio"
+                    name="chapter-select"
+                    value={5}
+                    label="Chapter 5"
+                    onChange={handleChapterSelect}
+                  />
+                </div>
+                <div>
+                  <h4>Summary</h4>
 
-                <Table className={"bg-white"} hover responsive>
-                  <thead>
-                    <tr>
-                      <th className="text-primary">Chapter</th>
-                      <th className="text-primary">Start</th>
-                      <th className="text-primary">End</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Object.keys(chapterRanges).map((chapter, index) => {
-                      const start = chapterRanges[chapter].findIndex(
-                        (val) => val === 1
-                      );
-                      const end = chapterRanges[chapter]
-                        .slice(start + 1)
-                        .findIndex((val) => val === 1);
+                  <Table className={"bg-white"} hover responsive>
+                    <thead>
+                      <tr>
+                        <th className="text-primary">Chapter</th>
+                        <th className="text-primary">Start</th>
+                        <th className="text-primary">End</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.keys(chapterRanges).map((chapter, index) => {
+                        const start = chapterRanges[chapter].findIndex(
+                          (val) => val === 1
+                        );
+                        const end = chapterRanges[chapter]
+                          .slice(start + 1)
+                          .findIndex((val) => val === 1);
 
-                      return (
-                        <tr key={"chapter-summary-" + index}>
-                          <td>{chapter}</td>
-                          <td>{start === -1 ? 0 : start + 1}</td>
-                          <td>{end === -1 ? 0 : end + start + 2}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
+                        return (
+                          <tr key={"chapter-summary-" + index}>
+                            <td>{chapter}</td>
+                            <td>{start === -1 ? 0 : start + 1}</td>
+                            <td>{end === -1 ? 0 : end + start + 2}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </Table>
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div className="d-flex flex-column">
             <div>{error && <p className="text-danger">{error}</p>}</div>
