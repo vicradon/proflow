@@ -12,17 +12,15 @@ function AvatarUpload() {
 
   const handleSubmit = async (event) => {
     try {
+      event.preventDefault();
       setError("");
       setFormSubmitted(true);
-      event.preventDefault();
 
       const formData = new FormData();
       formData.append("avatar", avatar);
 
-      const { data } = await maxios.post("/users/avatar", formData);
-
-      localStorage.setItem("jwt", data.access_token);
-      history.push("/project/setup");
+      await maxios.post("/users/avatar", formData);
+      history.push("/student/project/setup");
     } catch (error) {
       const errors = error.response.data.errors
         ? Object.values(error.response.data.errors).join("\n")

@@ -16,8 +16,9 @@ maxios.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.clear();
-      window.location.href = "/";
+      console.log(error.response);
+      // localStorage.clear();
+      // window.location.href = "/";
     } else {
       return Promise.reject(error);
     }

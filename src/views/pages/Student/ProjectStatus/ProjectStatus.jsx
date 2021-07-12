@@ -17,16 +17,12 @@ function ProjectStatus() {
   const fetchData = async () => {
     try {
       setLoading(true);
-
-      const { data: supervisor } = await maxios.get(`/users/${supervisor_id}`);
+      // const { data: supervisor } = await maxios.get(`/users/${supervisor_id}`);
       const { data: project_data } = await maxios.get(`/project-status`);
 
+      setSupervisorName(project_data.supervisor_name);
+      setProjectStatus(project_data.status);
       setLoading(false);
-
-      return {
-        supervisor_name: supervisor.name,
-        project_status: project_data.status,
-      };
     } catch (error) {
       setError(error.response.data.message);
       setLoading(false);
@@ -34,13 +30,11 @@ function ProjectStatus() {
   };
 
   useEffect(async () => {
-    const { supervisor_name, project_status } = await fetchData();
-    setSupervisorName(supervisor_name);
-    setProjectStatus(project_status);
+    fetchData();
   }, []);
 
   return (
-    <GeneralTemplate noAuth>
+    <GeneralTemplate>
       <div className="d-flex flex-column align-items-center">
         <h5 className="text-center">Approval Status</h5>
 
@@ -49,11 +43,18 @@ function ProjectStatus() {
             <span className="sr-only">Loading...</span>
           </Spinner>
         )}
-        {projectStatus === "approved" && <ProjectApproved />}
-        {projectStatus === "pending" && (
-          <ProjectPending setProjectStatus={setProjectStatus} />
+        {projectStatus === "approved" && (
+          <ProjectApproved supervisorName={supervisorName} />
         )}
-        {projectStatus === "rejected" && <ProjectRejected />}
+        {projectStatus === "pending" && (
+          <ProjectPending
+            supervisorName={supervisorName}
+            setProjectStatus={setProjectStatus}
+          />
+        )}
+        {projectStatus === "rejected" && (
+          <ProjectRejected supervisorName={supervisorName} />
+        )}
 
         <p className="text-danger">{error}</p>
       </div>

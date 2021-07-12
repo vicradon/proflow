@@ -10,3 +10,8 @@
   grid-template-columns: 70% 30%;
   grid-gap: 1rem;
 }
+.side_options {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+}

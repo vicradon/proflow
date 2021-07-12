@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Images from "./Images";
 
-function ProjectApproved() {
+function ProjectApproved({ supervisorName }) {
   return (
     <Fragment>
       <h5 className="text-center display-4 text-success">Approved</h5>
@@ -13,7 +13,7 @@ function ProjectApproved() {
         src={Images.ProjectApprovedCheckmark}
         alt="project approved"
       />
-      <h5>Your project has been approved</h5>
+      <h5>Your project has been approved by {supervisorName}</h5>
       <p>
         Click on the button below to proceed to your dashboard and start your
         project

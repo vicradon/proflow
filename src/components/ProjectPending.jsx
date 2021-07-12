@@ -3,7 +3,7 @@ import maxios from "../utils/maxios";
 import Images from "./Images";
 import SubmitButton from "./SubmitButton";
 
-function ProjectPending({ setProjectStatus }) {
+function ProjectPending({ setProjectStatus, supervisorName }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -11,7 +11,6 @@ function ProjectPending({ setProjectStatus }) {
     try {
       setLoading(true);
       const { data: project_data } = await maxios.get(`/project-status`);
-      console.log(project_data);
       setProjectStatus(project_data.status);
       setLoading(false);
     } catch (error) {
@@ -29,7 +28,9 @@ function ProjectPending({ setProjectStatus }) {
         src={Images.ProjectPendingNullmark}
         alt="project pending"
       />
-      <h5>Your project is awaiting approval</h5>
+      <h5>
+        Your project is awaiting approval from <b>{supervisorName}</b>
+      </h5>
       <p>Click on the button below to check your project's status</p>
 
       <p className="text-danger">{error}</p>

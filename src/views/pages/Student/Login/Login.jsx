@@ -27,13 +27,16 @@ function StudentLogin() {
         setFormSubmitted(false);
       } else {
         maxios.saveToLocalStorage(data);
-        history.push("/student/dashboard");
+
+        // Needed to load the token to maxios
+        window.location.href = "/";
       }
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error.response ? error.response.data.message : error.message);
       setFormSubmitted(false);
     }
   };
+
   return (
     <GeneralTemplate>
       <h3>Welcome back</h3>

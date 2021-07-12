@@ -19,36 +19,64 @@ import CoordinatorLogin from "./views/pages/Coordinator/Login/Login";
 import CoordinatorDashboard from "./views/pages/Coordinator/Dashboard/Dashboard";
 import ProjectCategory from "./views/pages/Coordinator/ProjectCategory/ProjectCategory";
 import SupervisorLogin from "./views/pages/Supervisor/Login/Login";
-import SignupOption from "./views/pages/SignupOption";
+import LandingPage from "./views/pages/LandingPage";
 import SupervisorDashboard from "./views/pages/Supervisor/Dashboard/Dashboard";
 import ProjectUpload from "./views/pages/Student/ProjectUpload/ProjectUpload";
+import { useContext, useEffect } from "react";
+import { Context } from "./store";
+import RecentProposals from "./views/pages/Supervisor/RecentProposals/RecentProposals";
+import RecentProposal from "./views/pages/Supervisor/RecentProposals/RecentProposal";
 
 const Routes = () => {
+  const { dispatch } = useContext(Context);
+  const isAuthenticated = localStorage.getItem("jwt");
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch({ type: "SET_AUTHENTICATED" });
+    } else {
+      dispatch({ type: "SET_UNAUTHENTICATED" });
+    }
+  }, []);
+
   return (
     <div className="App">
       <Router>
         <ErrorBoundary>
           <Switch>
-            <Route path="/" exact component={SignupOption} />
+            <Route path="/" exact component={LandingPage} />
 
             {/* Student Routes */}
             <Route path="/student/signup" exact component={StudentSignup} />
             <Route path="/student/login" component={StudentLogin} />
             <Route path="/student/dashboard" component={StudentDashboard} />
-            <Route path="/student/project-upload" component={ProjectUpload} />
-            <Route path="/profile/avatar" component={AvatarUpload} />
-            <Route path="/project/setup" component={ProjectDetails} />
+            <Route path="/student/profile/avatar" component={AvatarUpload} />
+            <Route path="/student/project/setup" component={ProjectDetails} />
+            <Route path="/student/project/upload" component={ProjectUpload} />
             <Route
-              path="/project/pairing/{supervisor_id}"
+              path="/student/project/chapters/{chapter_id}"
+              component={ProjectDetails}
+            />
+            <Route
+              path="/student/project/pairing/{supervisor_id}"
               component={SupervisorPairing}
             />
-            <Route path="/project/status" component={ProjectStatus} />
+            <Route path="/student/project/status" component={ProjectStatus} />
 
             {/* Supervisor Routes */}
             <Route path="/supervisor/login" component={SupervisorLogin} />
             <Route
-              path="/supervisor/students"
+              path="/supervisor/dashboard"
               component={SupervisorDashboard}
+            />
+            <Route
+              path="/supervisor/recent-proposals"
+              component={RecentProposals}
+              exact
+            />
+            <Route
+              path="/supervisor/recent-proposals/{proposal_id}"
+              component={RecentProposal}
             />
 
             {/* Coordinator Routes */}

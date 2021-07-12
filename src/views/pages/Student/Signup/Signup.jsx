@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Form, Col } from "react-bootstrap";
+import { Form, Col } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate";
 import Images from "../../../../components/Images";
@@ -11,6 +11,7 @@ import SubmitButton from "../../../../components/SubmitButton";
 
 function StudentSignup() {
   const [showSuccessModal, setSuccessModal] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const history = useHistory();
 
   const schema = yup.object().shape({
@@ -35,23 +36,37 @@ function StudentSignup() {
   });
 
   const formik = useFormik({
+    // For use when speed testing
+
     initialValues: {
-      first_name: "",
-      last_name: "",
-      email: "",
-      phone_number: "",
-      reg_number: "",
-      department: "",
-      password: "",
-      confirmPassword: "",
-      terms: false,
+      first_name: "John",
+      last_name: "Doe",
+      email: "johnnydoe@gmail.com",
+      phone_number: "082934874832",
+      reg_number: "20193839284",
+      department: "Mechanical Science",
+      password: "password",
+      confirmPassword: "password",
+      terms: true,
     },
+    // initialValues: {
+    //   first_name: "",
+    //   last_name: "",
+    //   email: "",
+    //   phone_number: "",
+    //   reg_number: "",
+    //   department: "",
+    //   password: "",
+    //   confirmPassword: "",
+    //   terms: false,
+    // },
     validationSchema: schema,
     onSubmit: async (values) => {
       try {
+        setFormSubmitted(true);
         const { data } = await maxios.post("/register?role=student", values);
         localStorage.setItem("jwt", data.access_token);
-        history.push("/profile/avatar");
+        history.push("/student/profile/avatar");
       } catch (error) {
         const errors = error.response.data.errors
           ? Object.values(error.response.data.errors).join("\n")
@@ -208,7 +223,9 @@ function StudentSignup() {
           />
         </Form.Row>
 
-        <SubmitButton className="w-100">Sign up</SubmitButton>
+        <SubmitButton disabled={formSubmitted} className="w-100">
+          Sign up
+        </SubmitButton>
       </Form>
 
       <div className="d-flex justify-content-center align-items-baseline">

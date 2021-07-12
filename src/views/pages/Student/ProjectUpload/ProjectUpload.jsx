@@ -5,6 +5,7 @@ import { Document, Page } from "react-pdf";
 import { Form, Button, Table } from "react-bootstrap";
 import SubmitButton from "../../../../components/SubmitButton";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate.jsx";
+import maxios from "../../../../utils/maxios.js";
 
 function ProjectUpload() {
   const [sideOptionsVisible, setSideOptionsVisible] = useState(false);
@@ -69,9 +70,6 @@ function ProjectUpload() {
     arr[target.value - 1] = 1;
     setChapterRanges({ ...chapterRanges, [activeChapterSelect]: arr });
   };
-  const uploadPdf = (event) => {
-    event.preventDefault();
-  };
 
   const getPageRanges = () => {
     const startEnds = {};
@@ -86,10 +84,32 @@ function ProjectUpload() {
 
     return startEnds;
   };
+
+  const handleSubmit = async (event) => {
+    try {
+      setError("");
+      setFormSubmited(true);
+      event.preventDefault();
+
+      const formData = new FormData();
+      formData.append("project_pdf", projectPdf);
+
+      const { data } = await maxios.post("/projects/upload", formData);
+    } catch (error) {
+      const errors =
+        error.response && error.response.data.errors
+          ? Object.values(error.response.data.errors).join("\n")
+          : "An error occured, our engineers are working hard to fix it";
+
+      setError(errors);
+      setFormSubmited(false);
+    }
+  };
+
   return (
     <DashboardTemplate>
       <div className="m-4">
-        <Form onSubmit={uploadPdf}>
+        <Form onSubmit={handleSubmit}>
           <Form.File
             className="mb-2"
             name="avatar"
@@ -133,75 +153,70 @@ function ProjectUpload() {
 
             {sideOptionsVisible && (
               <div>
-                <div className="mb-4">
-                  <h4>Chapter Select</h4>
-                  <Form.Check
-                    type="radio"
-                    name="chapter-select"
-                    value={1}
-                    label="Chapter 1"
-                    onChange={handleChapterSelect}
-                    defaultChecked
-                  />
-                  <Form.Check
-                    type="radio"
-                    name="chapter-select"
-                    value={2}
-                    label="Chapter 2"
-                    onChange={handleChapterSelect}
-                  />
-                  <Form.Check
-                    type="radio"
-                    name="chapter-select"
-                    value={3}
-                    label="Chapter 3"
-                    onChange={handleChapterSelect}
-                  />
-                  <Form.Check
-                    type="radio"
-                    name="chapter-select"
-                    value={4}
-                    label="Chapter 4"
-                    onChange={handleChapterSelect}
-                  />
-                  <Form.Check
-                    type="radio"
-                    name="chapter-select"
-                    value={5}
-                    label="Chapter 5"
-                    onChange={handleChapterSelect}
-                  />
-                </div>
-                <div>
-                  <h4>Summary</h4>
+                <div className={styles.side_options}>
+                  <div className="mb-4">
+                    <h4>Chapter Select</h4>
+                    <Form.Check
+                      type="radio"
+                      name="chapter-select"
+                      value={1}
+                      label="Chapter 1"
+                      onChange={handleChapterSelect}
+                      defaultChecked
+                    />
+                    <Form.Check
+                      type="radio"
+                      name="chapter-select"
+                      value={2}
+                      label="Chapter 2"
+                      onChange={handleChapterSelect}
+                    />
+                    <Form.Check
+                      type="radio"
+                      name="chapter-select"
+                      value={3}
+                      label="Chapter 3"
+                      onChange={handleChapterSelect}
+                    />
+                    <Form.Check
+                      type="radio"
+                      name="chapter-select"
+                      value={4}
+                      label="Chapter 4"
+                      onChange={handleChapterSelect}
+                    />
+                    <Form.Check
+                      type="radio"
+                      name="chapter-select"
+                      value={5}
+                      label="Chapter 5"
+                      onChange={handleChapterSelect}
+                    />
+                  </div>
+                  <div>
+                    <h4>Summary</h4>
 
-                  <Table className={"bg-white"} hover responsive>
-                    <thead>
-                      <tr>
-                        <th className="text-primary">Chapter</th>
-                        <th className="text-primary">Start</th>
-                        <th className="text-primary">End</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Object.keys(chapterRanges).map((chapter, index) => {
-                        const start = chapterRanges[chapter].findIndex(
-                          (val) => val === 1
-                        );
-                        const end = chapterRanges[chapter]
-                          .slice(start + 1)
-                          .findIndex((val) => val === 1);
-
-                        return (
-                          <tr key={"chapter-summary-" + index}>
-                            <td>{chapter}</td>
-                            <td>{start === -1 ? 0 : start + 1}</td>
-                            <td>{end === -1 ? 0 : end + start + 2}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
+                    <Table className={"bg-white"} hover responsive>
+                      <thead>
+                        <tr>
+                          <th className="text-primary">Chapter</th>
+                          <th className="text-primary">Start</th>
+                          <th className="text-primary">End</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Object.entries(getPageRanges()).map((entry, index) => {
+                          return (
+                            <tr key={"chapter-summary-" + index}>
+                              <td>{entry[0]}</td>
+                              <td>{entry[1][0]}</td>
+                              <td>{entry[1][1]}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </Table>
+                  </div>
                 </div>
               </div>
             )}
