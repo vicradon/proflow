@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import ReactLoaderSpinner from "react-loader-spinner";
 
-function Loader({ show }) {
+function Loader({ show, error }) {
   return (
     <Fragment>
       {show && (
@@ -14,6 +14,7 @@ function Loader({ show }) {
           />
         </div>
       )}
+      {error && <p className="text-center">{error}</p>}
     </Fragment>
   );
 }

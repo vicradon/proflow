@@ -1,50 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Table, InputGroup, FormControl } from "react-bootstrap";
+import { Table, InputGroup, FormControl, Dropdown } from "react-bootstrap";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate";
 import Images from "../../../../components/Images.js";
 import styles from "./styles.module.css";
 import { MdMoreVert } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
+import Loader from "../../../../components/Loader";
+import maxios from "../../../../utils/maxios";
 
 function SupervisorDashboard() {
-  const [students, setStudents] = useState([
-    {
-      name: "Achonwa Alvan",
-      department: "CSC",
-      category: "Telecom",
-      date_added: "Feb 3, 2020",
-    },
-    {
-      name: "Chizo Nwazuo",
-      department: "CSC",
-      category: "Systems",
-      date_added: "Feb 3, 2020",
-    },
-    {
-      name: "Collins Adeleke",
-      department: "CSC",
-      category: "IoT",
-      date_added: "Feb 3, 2020",
-    },
-    {
-      name: "Elendu Christiana",
-      department: "CSC",
-      category: "Research",
-      date_added: "Feb 3, 2020",
-    },
-  ]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [students, setStudents] = useState([]);
+
+  useEffect(() => {
+    fetchStudents();
+  }, []);
+
+  const fetchStudents = async () => {
+    try {
+      const { data } = await maxios.get(`/supervisor/students`);
+      setStudents(data.students);
+      setLoading(false);
+    } catch (error) {
+      setError(error.response.data.message);
+      setLoading(false);
+    }
+  };
+
   return (
     <DashboardTemplate>
+      <Loader error={error} show={loading} />
       <div className="mx-4">
-        <div className="d-flex flex-column">
-          <h5 className="mx-2">Total Students: 17</h5>
-          <h5 className="mx-2">Paired Students: 15</h5>
-        </div>
-
         <div>
           <div className={styles.search_container}>
-            <InputGroup className="mb-3">
+            <InputGroup className="w-50">
               <InputGroup.Prepend>
                 <InputGroup.Text id="basic-addon1">
                   <FiSearch />
@@ -56,6 +47,18 @@ function SupervisorDashboard() {
                 aria-describedby="basic-addon1"
               />
             </InputGroup>
+          </div>
+
+          <div
+            style={{ backgroundColor: "#F7F7F7" }}
+            className="d-flex align-items-baseline justify-content-end py-4"
+          >
+            <p className="mr-3">Filter: </p>
+            <select>
+              <option value="all">All</option>
+              <option value="approved">Approved projects</option>
+              <option value="rejected">Rejected projects</option>
+            </select>
           </div>
           <Table className={"bg-white " + styles.table} hover responsive>
             <thead>
@@ -69,21 +72,35 @@ function SupervisorDashboard() {
             </thead>
             <tbody>
               {students.map((student, index) => {
+                console.log(student);
                 return (
                   <tr key={index}>
                     <td className="d-flex align-items-center p-3">
                       <img
                         src={`https://robohash.org/${student.category}.png`}
-                        alt={student.name}
+                        alt={student.user.name}
                         className={styles.avatar}
                       />
-                      <span className="ml-1">{student.name}</span>
+                      <span className="ml-1">{student.user.name}</span>
                     </td>
-                    <td>{student.department}</td>
-                    <td>{student.category}</td>
-                    <td>{student.date_added}</td>
+                    <td>{student.user.department}</td>
+                    {/* <td>{student.project_category.name}</td> */}
+                    <td>{student.user.created_at}</td>
                     <td>
-                      <MdMoreVert />
+                      <Dropdown>
+                        <Dropdown.Toggle variant="light-outline">
+                          <MdMoreVert size={24} />
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                          <Dropdown.Item
+                            as={Link}
+                            to={`/supervisor/students/${student.id}`}
+                          >
+                            View
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
                     </td>
                   </tr>
                 );

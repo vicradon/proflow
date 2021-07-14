@@ -9,6 +9,7 @@ import Loader from "../../../../components/Loader";
 
 function RecentProposals() {
   const [proposals, setProposals] = useState([]);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetchProposals();
@@ -17,14 +18,16 @@ function RecentProposals() {
   const fetchProposals = async () => {
     try {
       const { data: recent_proposals } = await maxios.get("/recent-proposals");
-
       setLoading(false);
       setProposals(recent_proposals.data);
-    } catch (error) {}
+    } catch (error) {
+      setLoading(false);
+      setError("An error occured, probably a failed network request");
+    }
   };
   return (
     <DashboardTemplate>
-      <Loader show={loading} />
+      <Loader show={loading} error={error} />
       <div className={styles.proposals_grid + " mx-4"}>
         {proposals.map((proposal) => {
           const avatarUrl =

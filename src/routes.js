@@ -54,11 +54,11 @@ const Routes = () => {
             <Route path="/student/project/setup" component={ProjectDetails} />
             <Route path="/student/project/upload" component={ProjectUpload} />
             <Route
-              path="/student/project/chapters/{chapter_id}"
+              path="/student/project/chapters/:chapter_id"
               component={ProjectDetails}
             />
             <Route
-              path="/student/project/pairing/{supervisor_id}"
+              path="/student/project/pairing/:supervisor_id"
               component={SupervisorPairing}
             />
             <Route path="/student/project/status" component={ProjectStatus} />
@@ -71,11 +71,17 @@ const Routes = () => {
             />
             <Route
               path="/supervisor/recent-proposals"
-              component={RecentProposals}
               exact
+              component={RecentProposals}
             />
             <Route
-              path="/supervisor/recent-proposals/{proposal_id}"
+              path="/supervisor/recent-proposals/:proposal_id"
+              exact
+              component={RecentProposal}
+            />
+            <Route
+              path="/supervisor/students/:student_id"
+              exact
               component={RecentProposal}
             />
 

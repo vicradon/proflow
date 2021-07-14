@@ -66,12 +66,13 @@ function StudentSignup() {
         setFormSubmitted(true);
         const { data } = await maxios.post("/register?role=student", values);
         localStorage.setItem("jwt", data.access_token);
-        history.push("/student/profile/avatar");
+        window.location.href = "/student/profile/avatar";
       } catch (error) {
         const errors = error.response.data.errors
           ? Object.values(error.response.data.errors).join("\n")
           : "";
         alert(errors);
+        setFormSubmitted(false);
       }
     },
   });

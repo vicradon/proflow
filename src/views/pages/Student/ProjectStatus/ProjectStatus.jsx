@@ -24,7 +24,7 @@ function ProjectStatus() {
       setProjectStatus(project_data.status);
       setLoading(false);
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error.response && error.response.data.message);
       setLoading(false);
     }
   };

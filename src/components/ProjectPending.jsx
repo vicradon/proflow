@@ -29,7 +29,16 @@ function ProjectPending({ setProjectStatus, supervisorName }) {
         alt="project pending"
       />
       <h5>
-        Your project is awaiting approval from <b>{supervisorName}</b>
+        {supervisorName ? (
+          <p className="text-center">
+            Your project is awaiting approval from <b>{supervisorName}</b>
+          </p>
+        ) : (
+          <p className="text-center">
+            You haven't been assigned a supervisor yet. Check back later if you
+            have been assigned one.
+          </p>
+        )}
       </h5>
       <p>Click on the button below to check your project's status</p>
 

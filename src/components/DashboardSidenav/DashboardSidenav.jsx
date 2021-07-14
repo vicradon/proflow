@@ -7,6 +7,10 @@ import styles from "./DashboardSidenav.module.css";
 function DashboardSidenav() {
   const navlink_style = "mb-3 pl-4";
   const role = localStorage.getItem("role");
+  const logoutUser = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  };
   return (
     <div className={styles.root}>
       <div className="d-flex justify-content-center py-2">
@@ -65,7 +69,11 @@ function DashboardSidenav() {
           </Fragment>
         )}
 
-        <Button variant="transparent" className="text-left ml-3 text-primary">
+        <Button
+          onClick={logoutUser}
+          variant="transparent"
+          className="text-left ml-3 text-primary"
+        >
           Logout
         </Button>
       </Nav>
