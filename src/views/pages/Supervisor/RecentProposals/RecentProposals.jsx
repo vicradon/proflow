@@ -28,6 +28,7 @@ function RecentProposals() {
   return (
     <DashboardTemplate>
       <Loader show={loading} error={error} />
+      {!proposals.length && <p className="text-center">No recent proposals</p>}
       <div className={styles.proposals_grid + " mx-4"}>
         {proposals.map((proposal) => {
           const avatarUrl =

@@ -26,6 +26,8 @@ import { useContext, useEffect } from "react";
 import { Context } from "./store";
 import RecentProposals from "./views/pages/Supervisor/RecentProposals/RecentProposals";
 import RecentProposal from "./views/pages/Supervisor/RecentProposals/RecentProposal";
+import StudentProject from "./views/pages/Supervisor/StudentProject/StudentProject";
+import StudentProjectChapter from "./views/pages/Supervisor/StudentProject/StudentProjectChapter";
 
 const Routes = () => {
   const { dispatch } = useContext(Context);
@@ -82,7 +84,12 @@ const Routes = () => {
             <Route
               path="/supervisor/students/:student_id"
               exact
-              component={RecentProposal}
+              component={StudentProject}
+            />
+            <Route
+              path="/supervisor/students/:student_id/chapters/:chapter_id"
+              exact
+              component={StudentProjectChapter}
             />
 
             {/* Coordinator Routes */}

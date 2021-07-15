@@ -4,7 +4,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import capitalize from "../../utils/capitalize";
 import styles from "./ChapterCard.module.css";
 
-function ChapterCard({ status, index }) {
+function ChapterCard({ status, index, chapter_id, student_id }) {
   const cardColor = (() => {
     switch (status) {
       case "approved": {
@@ -21,6 +21,8 @@ function ChapterCard({ status, index }) {
       }
     }
   })();
+
+  const role = localStorage.getItem("role");
   return (
     <div className={styles.root}>
       <div
@@ -38,7 +40,13 @@ function ChapterCard({ status, index }) {
           {index}
         </div>
       </div>
-      <Link to="#">
+      <Link
+        to={
+          role === "student"
+            ? `/student/chapters/${chapter_id}`
+            : `/supervisor/students/${student_id}/chapters/${chapter_id}`
+        }
+      >
         <Button variant="info" className="w-100">
           View
         </Button>

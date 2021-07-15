@@ -55,6 +55,7 @@ function AvatarUpload() {
 
         <Form onSubmit={handleSubmit}>
           <Form.File
+            required
             className="mb-2"
             name="avatar"
             custom

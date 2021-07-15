@@ -6,8 +6,10 @@ import { Form, Button, Table } from "react-bootstrap";
 import SubmitButton from "../../../../components/SubmitButton";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate.jsx";
 import maxios from "../../../../utils/maxios.js";
+import { useHistory } from "react-router-dom";
 
 function ProjectUpload() {
+  const history = useHistory();
   const [sideOptionsVisible, setSideOptionsVisible] = useState(false);
   const [formSubmited, setFormSubmited] = useState(false);
   const [error, setError] = useState("");
@@ -92,9 +94,16 @@ function ProjectUpload() {
       event.preventDefault();
 
       const formData = new FormData();
+      const pageRanges = getPageRanges();
+
+      formData.append("available_chapters", Object.keys(pageRanges).length);
+      formData.append("page_ranges", JSON.stringify(pageRanges));
       formData.append("project_pdf", projectPdf);
 
       const { data } = await maxios.post("/projects/upload", formData);
+
+      setFormSubmited(false);
+      history.push("/student/dashboard");
     } catch (error) {
       const errors =
         error.response && error.response.data.errors

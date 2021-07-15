@@ -8,6 +8,7 @@ import { MdMoreVert } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
 import Loader from "../../../../components/Loader";
 import maxios from "../../../../utils/maxios";
+import moment from "moment";
 
 function SupervisorDashboard() {
   const [loading, setLoading] = useState(true);
@@ -77,16 +78,22 @@ function SupervisorDashboard() {
                   <tr key={index}>
                     <td className="d-flex align-items-center p-3">
                       <img
-                        src={`https://robohash.org/${student.category}.png`}
+                        src={student.user.avatar_url}
                         alt={student.user.name}
                         className={styles.avatar}
                       />
                       <span className="ml-1">{student.user.name}</span>
                     </td>
-                    <td>{student.user.department}</td>
-                    {/* <td>{student.project_category.name}</td> */}
-                    <td>{student.user.created_at}</td>
-                    <td>
+                    <td className="align-middle">{student.user.department}</td>
+                    <td className="align-middle">
+                      {student.project.project_category.name}
+                    </td>
+                    <td className="align-middle">
+                      {student.user
+                        ? moment(student.user.created_at).format("ll")
+                        : ""}
+                    </td>
+                    <td className="align-middle">
                       <Dropdown>
                         <Dropdown.Toggle variant="light-outline">
                           <MdMoreVert size={24} />
@@ -107,6 +114,9 @@ function SupervisorDashboard() {
               })}
             </tbody>
           </Table>
+          {!students.length && (
+            <p className="text-center">No students were assigned to you</p>
+          )}
         </div>
       </div>
     </DashboardTemplate>

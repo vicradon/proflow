@@ -33,7 +33,7 @@ function StudentDashboard() {
       <div className="mx-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h3>Project Progress: 70%</h3>
-          <Link to="/student/project-upload">
+          <Link to="/student/project/upload">
             <Button>Upload project</Button>
           </Link>
         </div>
@@ -41,7 +41,7 @@ function StudentDashboard() {
         <div className="d-flex justify-content-between align-items-center flex-wrap">
           {chapters.map((chapter) => {
             return (
-              <div key={"chapter card " + chapter.index} className="mb-5">
+              <div key={"chapter card " + chapter.id} className="mb-5">
                 <ChapterCard status={chapter.status} index={chapter.index} />
               </div>
             );

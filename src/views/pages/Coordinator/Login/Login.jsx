@@ -27,7 +27,7 @@ function CoordinatorLogin() {
         setFormSubmitted(false);
       } else {
         maxios.saveToLocalStorage(data);
-        history.push("/coordinator/dashboard");
+        window.location.href = "/coordinator/dashboard";
       }
     } catch (error) {
       setError(error.response.data.message);

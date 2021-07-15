@@ -41,9 +41,9 @@ function StudentSignup() {
     initialValues: {
       first_name: "John",
       last_name: "Doe",
-      email: "johnnydoe@gmail.com",
+      email: "vonnewman@gmail.com",
       phone_number: "082934874832",
-      reg_number: "20193839284",
+      reg_number: "20178439284",
       department: "Mechanical Science",
       password: "password",
       confirmPassword: "password",
@@ -65,7 +65,7 @@ function StudentSignup() {
       try {
         setFormSubmitted(true);
         const { data } = await maxios.post("/register?role=student", values);
-        localStorage.setItem("jwt", data.access_token);
+        maxios.saveToLocalStorage(data);
         window.location.href = "/student/profile/avatar";
       } catch (error) {
         const errors = error.response.data.errors

@@ -27,7 +27,7 @@ function SupervisorLogin() {
         setFormSubmitted(false);
       } else {
         maxios.saveToLocalStorage(data);
-        history.push("/supervisor/dashboard");
+        window.location.href = "/supervisor/dashboard";
       }
     } catch (error) {
       setError(error.response.data.message);
@@ -82,13 +82,6 @@ function SupervisorLogin() {
           <span>Login</span>
         </Button>
       </Form>
-
-      <div className="d-flex align-items-baseline justify-content-center">
-        <p className="mx-1">Don’t have an account with us? </p>
-        <Link className="mx-1" to="/supervisor/signup">
-          Sign Up
-        </Link>
-      </div>
     </GeneralTemplate>
   );
 }

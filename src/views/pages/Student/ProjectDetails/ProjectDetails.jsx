@@ -42,9 +42,11 @@ function ProjectDetails() {
         });
         setLoading(false);
       }
+      if (project_data.status === "pending") {
+        history.push("/student/project/status");
+      }
       setLoading(false);
     } catch (error) {
-      console.error(error);
       setLoading(false);
     }
   };
@@ -63,11 +65,12 @@ function ProjectDetails() {
 
       history.push(`/student/project/status`);
     } catch (error) {
-      const errors = error.response.data.errors
-        ? Object.values(error.response.data.errors).join("\n")
-        : "An error occured, our engineers are working hard to fix it";
+      // const errors = error.response.data.errors
+      //   ? Object.values(error.response.data.errors).join("\n")
+      //   : "An error occured, our engineers are working hard to fix it";
+      // setError(errors);
 
-      setError(errors);
+      setError(error.response.data.message);
       setFormSubmitted(false);
     }
   };
@@ -128,6 +131,7 @@ function ProjectDetails() {
                 placeholder="Enter short description about your project"
               />
             </Form.Group>
+            {error && <p className="text-center">{error}</p>}
             <div className="d-flex justify-content-end">
               <SubmitButton disabled={formSubmitted}>
                 {editMode ? "Update" : "Submit"}

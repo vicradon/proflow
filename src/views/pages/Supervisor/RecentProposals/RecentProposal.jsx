@@ -60,6 +60,7 @@ function RecentProposal() {
   return (
     <DashboardTemplate>
       <Loader error={error} show={loading} />
+
       <div className={"rounded bg-white shadow p-4 mx-4"}>
         <div className="d-flex align-items-center" key={proposal.id}>
           <img

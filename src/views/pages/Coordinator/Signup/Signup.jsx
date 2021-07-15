@@ -55,7 +55,7 @@ function CoordinatorSignup() {
       );
 
       localStorage.setItem("jwt", data.access_token);
-      history.push("/coordinator/dashboard");
+      window.location.href = "/coordinator/dashboard";
     } catch (error) {
       const errors = error.response.data.errors
         ? Object.values(error.response.data.errors).join("\n")
