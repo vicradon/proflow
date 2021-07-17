@@ -54,7 +54,7 @@ function CoordinatorSignup() {
         formData
       );
 
-      localStorage.setItem("jwt", data.access_token);
+      maxios.saveToLocalStorage(data);
       window.location.href = "/coordinator/dashboard";
     } catch (error) {
       const errors = error.response.data.errors

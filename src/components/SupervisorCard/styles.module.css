@@ -1,0 +1,12 @@
+.groupcard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #337ab7;
+  color: white;
+  text-align: center;
+  padding: 6px;
+  padding-left: 50px;
+  padding-right: 50px;
+  border-radius: 0px 20px 20px 0px;
+}

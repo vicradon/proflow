@@ -6,10 +6,6 @@ TODO: Add README
 
 First, fetch the changes using
 
-# Helo
-
-# Osinachi No get Sense him de argue read.md say e no get syntax.
-
 ```bash
 git fetch upstream
 ```
@@ -20,8 +16,14 @@ Then rebase the fetched changes
 git rebase upstream/main
 ```
 
-## Today
+## Notify the supervisor when
 
-- Students should be able to view the pages of a chapter when they expand the chapter view various chapters
-- Students should see supervisor's comments when the expand the chapter view
-- Supervisors should be able to see the student's chapters and comment on them
+1. a student is assigned to them
+2. a student uploads a project
+3.
+
+## Notify the student when
+
+1. their supervisor approves or rejects a project
+2. their supervisor approves or rejects a chapter
+3.

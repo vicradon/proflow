@@ -69,6 +69,29 @@ function DashboardSidenav() {
           </Fragment>
         )}
 
+        {role === "coordinator" && (
+          <Fragment>
+            <Nav.Link
+              as={NavLink}
+              activeClassName={styles.active_link}
+              to="/coordinator/dashboard"
+              eventKey="dashboard"
+              className={navlink_style}
+            >
+              Dashboard
+            </Nav.Link>
+            {/* <Nav.Link
+              as={NavLink}
+              activeClassName={styles.active_link}
+              to="/coordinator/project-categories"
+              eventKey="project-categories"
+              className={navlink_style}
+            >
+              Project Categories
+            </Nav.Link> */}
+          </Fragment>
+        )}
+
         <Button
           onClick={logoutUser}
           variant="transparent"

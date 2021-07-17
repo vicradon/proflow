@@ -28,6 +28,7 @@ import RecentProposals from "./views/pages/Supervisor/RecentProposals/RecentProp
 import RecentProposal from "./views/pages/Supervisor/RecentProposals/RecentProposal";
 import StudentProject from "./views/pages/Supervisor/StudentProject/StudentProject";
 import StudentProjectChapter from "./views/pages/Supervisor/StudentProject/StudentProjectChapter";
+import SupervisorStudents from "./views/pages/Coordinator/SupervisorStudents/SupervisorStudents";
 
 const Routes = () => {
   const { dispatch } = useContext(Context);
@@ -101,12 +102,13 @@ const Routes = () => {
             />
             <Route path="/coordinator/login" component={CoordinatorLogin} />
             <Route
+              exact
               path="/coordinator/dashboard"
               component={CoordinatorDashboard}
             />
             <Route
-              path="/coordinator/dashboard/supervisors"
-              component={CoordinatorDashboard}
+              path="/coordinator/supervisors/:supervisor_id/students"
+              component={SupervisorStudents}
             />
 
             <Route path="*" component={NotFound} />

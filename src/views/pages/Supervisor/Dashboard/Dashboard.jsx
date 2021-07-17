@@ -61,6 +61,7 @@ function SupervisorDashboard() {
               <option value="rejected">Rejected projects</option>
             </select>
           </div>
+
           <Table className={"bg-white " + styles.table} hover responsive>
             <thead>
               <tr>
