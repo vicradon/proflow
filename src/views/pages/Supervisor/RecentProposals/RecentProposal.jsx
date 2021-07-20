@@ -8,9 +8,11 @@ import Images from "../../../../components/Images";
 import Loader from "../../../../components/Loader";
 import toast from "react-hot-toast";
 import SubmitButton from "../../../../components/SubmitButton";
+import { Fragment } from "react";
 
 function RecentProposal() {
   const { proposal_id } = useParams();
+  const [completedOperation, setCompletedOperation] = useState(false);
   const [error, setError] = useState("");
   const [actionSubmitting, setActionSubmitting] = useState({
     approve: false,
@@ -45,10 +47,12 @@ function RecentProposal() {
         setActionSubmitting({ approve: true, reject: false });
         await maxios.patch(`/recent-proposals/${proposal_id}?action=approve`);
         toast.success("Project Approved Successfully!");
+        setCompletedOperation(true);
       } else if (action === "reject") {
         setActionSubmitting({ approve: false, reject: true });
         await maxios.patch(`/recent-proposals/${proposal_id}?action=reject`);
         toast.success("This project has been rejected");
+        setCompletedOperation(true);
       }
       setActionSubmitting({ approve: false, reject: false });
     } catch (error) {
@@ -102,21 +106,28 @@ function RecentProposal() {
         <div className="mb-4">
           <p className="mb-0 text-primary">Action</p>
 
-          <SubmitButton
-            onClick={() => updateProposal("approve")}
-            className="btn-sm mr-3"
-            disabled={actionSubmitting.approve}
-          >
-            Approve &#10003;
-          </SubmitButton>
-          <SubmitButton
-            onClick={() => updateProposal("reject")}
-            variant="danger"
-            className="btn-sm"
-            disabled={actionSubmitting.reject}
-          >
-            Reject &#10005;
-          </SubmitButton>
+          {!completedOperation && (
+            <Fragment>
+              <SubmitButton
+                onClick={() => updateProposal("approve")}
+                className="btn-sm mr-3"
+                disabled={actionSubmitting.approve}
+              >
+                Approve &#10003;
+              </SubmitButton>
+              <SubmitButton
+                onClick={() => updateProposal("reject")}
+                variant="danger"
+                className="btn-sm"
+                disabled={actionSubmitting.reject}
+              >
+                Reject &#10005;
+              </SubmitButton>
+            </Fragment>
+          )}
+          {completedOperation && (
+            <Link to="/supervisor/recent-proposals">Go back</Link>
+          )}
         </div>
       </div>
     </DashboardTemplate>

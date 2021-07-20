@@ -41,7 +41,7 @@ function AvatarUpload() {
   };
 
   return (
-    <GeneralTemplate noAuth>
+    <GeneralTemplate>
       <div className={"d-flex flex-column align-items-center"}>
         <h3 className="text-center">Upload your passport</h3>
 

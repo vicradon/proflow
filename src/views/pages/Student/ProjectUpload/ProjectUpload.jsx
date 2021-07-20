@@ -7,9 +7,13 @@ import SubmitButton from "../../../../components/SubmitButton";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate.jsx";
 import maxios from "../../../../utils/maxios.js";
 import { useHistory } from "react-router-dom";
+import Loader from "../../../../components/Loader.jsx";
+import range from "../../../../utils/range.js";
 
 function ProjectUpload() {
   const history = useHistory();
+  const [loading, setLoading] = useState(true);
+  const [hasUnresolvedComments, setUnresolvedComments] = useState(true);
   const [sideOptionsVisible, setSideOptionsVisible] = useState(false);
   const [formSubmited, setFormSubmited] = useState(false);
   const [error, setError] = useState("");
@@ -41,6 +45,24 @@ function ProjectUpload() {
         .findIndex((val) => val === 1);
     }
   }, [activeChapterSelect]);
+
+  useEffect(() => {
+    fetchCommentCount();
+  }, []);
+
+  const fetchCommentCount = async () => {
+    try {
+      const { data } = await maxios.get("/comments-count");
+      if (data.comment_count > 0) {
+        setUnresolvedComments(true);
+      } else {
+        setUnresolvedComments(false);
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
 
   const filteredZeros = (arr) => arr.filter((val) => val !== 0);
   const onDocumentLoadSuccess = ({ numPages }) => {
@@ -75,13 +97,15 @@ function ProjectUpload() {
 
   const getPageRanges = () => {
     const startEnds = {};
-    Object.keys(chapterRanges).forEach((range) => {
-      const start = chapterRanges[range].findIndex((v) => v === 1);
-      const end = chapterRanges[range]
+    Object.keys(chapterRanges).forEach((chapter) => {
+      const start = chapterRanges[chapter].findIndex((v) => v === 1);
+      const end = chapterRanges[chapter]
         .slice(start + 1)
         .findIndex((v) => v === 1);
 
-      startEnds[range] = [start + 1, end + start + 2];
+      if (start !== -1 && end !== -1) {
+        startEnds[chapter] = [start + 1, end + start + 2];
+      }
     });
 
     return startEnds;
@@ -118,124 +142,136 @@ function ProjectUpload() {
   return (
     <DashboardTemplate>
       <div className="m-4">
-        <Form onSubmit={handleSubmit}>
-          <Form.File
-            className="mb-2"
-            name="avatar"
-            custom
-            accept="application/pdf"
-            label="Project PDF Upload"
-            onChange={handleFileChange}
-            required
-          />
+        <Loader show={loading} />
 
-          <div className={styles.pdf_select_area}>
-            <Document
-              className={styles.pdf_grid}
-              file={projectPdf}
-              onLoadSuccess={onDocumentLoadSuccess}
-            >
-              {chapterRanges[activeChapterSelect].map((checkValue, index) => {
-                return (
-                  <div key={"Page " + index + 1}>
-                    <Form.Check
-                      onChange={handlePageSelect}
-                      value={index + 1}
-                      label={`Page ${index + 1} ${
-                        checkValue === 1
-                          ? index ===
-                            chapterRanges[activeChapterSelect].findIndex(
-                              (val) => val === 1
-                            )
-                            ? "(start)"
-                            : "(end)"
-                          : ""
-                      }`}
-                      type="checkbox"
-                      checked={checkValue === 1}
-                    />
-                    <Page width={200} pageNumber={index + 1} />
-                  </div>
-                );
-              })}
-            </Document>
+        {!loading && hasUnresolvedComments && (
+          <p className="text-center">
+            Your project still has unresolved comments. Please go through each
+            chapter before attempting to upload again
+          </p>
+        )}
+        {!loading && !hasUnresolvedComments && (
+          <Form onSubmit={handleSubmit}>
+            <Form.File
+              className="mb-2"
+              name="avatar"
+              custom
+              accept="application/pdf"
+              label="Project PDF Upload"
+              onChange={handleFileChange}
+              required
+            />
 
-            {sideOptionsVisible && (
-              <div>
-                <div className={styles.side_options}>
-                  <div className="mb-4">
-                    <h4>Chapter Select</h4>
-                    <Form.Check
-                      type="radio"
-                      name="chapter-select"
-                      value={1}
-                      label="Chapter 1"
-                      onChange={handleChapterSelect}
-                      defaultChecked
-                    />
-                    <Form.Check
-                      type="radio"
-                      name="chapter-select"
-                      value={2}
-                      label="Chapter 2"
-                      onChange={handleChapterSelect}
-                    />
-                    <Form.Check
-                      type="radio"
-                      name="chapter-select"
-                      value={3}
-                      label="Chapter 3"
-                      onChange={handleChapterSelect}
-                    />
-                    <Form.Check
-                      type="radio"
-                      name="chapter-select"
-                      value={4}
-                      label="Chapter 4"
-                      onChange={handleChapterSelect}
-                    />
-                    <Form.Check
-                      type="radio"
-                      name="chapter-select"
-                      value={5}
-                      label="Chapter 5"
-                      onChange={handleChapterSelect}
-                    />
-                  </div>
-                  <div>
-                    <h4>Summary</h4>
+            <div className={styles.pdf_select_area}>
+              <Document
+                className={styles.pdf_grid}
+                file={projectPdf}
+                onLoadSuccess={onDocumentLoadSuccess}
+              >
+                {chapterRanges[activeChapterSelect].map((checkValue, index) => {
+                  return (
+                    <div key={"Page " + index + 1}>
+                      <Form.Check
+                        onChange={handlePageSelect}
+                        value={index + 1}
+                        label={`Page ${index + 1} ${
+                          checkValue === 1
+                            ? index ===
+                              chapterRanges[activeChapterSelect].findIndex(
+                                (val) => val === 1
+                              )
+                              ? "(start)"
+                              : "(end)"
+                            : ""
+                        }`}
+                        type="checkbox"
+                        checked={checkValue === 1}
+                      />
+                      <Page width={200} pageNumber={index + 1} />
+                    </div>
+                  );
+                })}
+              </Document>
 
-                    <Table className={"bg-white"} hover responsive>
-                      <thead>
-                        <tr>
-                          <th className="text-primary">Chapter</th>
-                          <th className="text-primary">Start</th>
-                          <th className="text-primary">End</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {Object.entries(getPageRanges()).map((entry, index) => {
-                          return (
-                            <tr key={"chapter-summary-" + index}>
-                              <td>{entry[0]}</td>
-                              <td>{entry[1][0]}</td>
-                              <td>{entry[1][1]}</td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </Table>
+              {sideOptionsVisible && (
+                <div>
+                  <div className={styles.side_options}>
+                    <div className="mb-4">
+                      <h4>Chapter Select</h4>
+                      <Form.Check
+                        type="radio"
+                        name="chapter-select"
+                        value={1}
+                        label="Chapter 1"
+                        onChange={handleChapterSelect}
+                        defaultChecked
+                      />
+                      <Form.Check
+                        type="radio"
+                        name="chapter-select"
+                        value={2}
+                        label="Chapter 2"
+                        onChange={handleChapterSelect}
+                      />
+                      <Form.Check
+                        type="radio"
+                        name="chapter-select"
+                        value={3}
+                        label="Chapter 3"
+                        onChange={handleChapterSelect}
+                      />
+                      <Form.Check
+                        type="radio"
+                        name="chapter-select"
+                        value={4}
+                        label="Chapter 4"
+                        onChange={handleChapterSelect}
+                      />
+                      <Form.Check
+                        type="radio"
+                        name="chapter-select"
+                        value={5}
+                        label="Chapter 5"
+                        onChange={handleChapterSelect}
+                      />
+                    </div>
+                    <div>
+                      <h4>Summary</h4>
+
+                      <Table className={"bg-white"} hover responsive>
+                        <thead>
+                          <tr>
+                            <th className="text-primary">Chapter</th>
+                            <th className="text-primary">Start</th>
+                            <th className="text-primary">End</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {Object.entries(getPageRanges()).map(
+                            (entry, index) => {
+                              return (
+                                <tr key={"chapter-summary-" + index}>
+                                  <td>{entry[0]}</td>
+                                  <td>{entry[1][0]}</td>
+                                  <td>{entry[1][1]}</td>
+                                </tr>
+                              );
+                            }
+                          )}
+                        </tbody>
+                      </Table>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
-          <div className="d-flex flex-column">
-            <div>{error && <p className="text-danger">{error}</p>}</div>
+              )}
+            </div>
+            <div className="d-flex flex-column">
+              <div>{error && <p className="text-danger">{error}</p>}</div>
 
-            <SubmitButton disabled={formSubmited} />
-          </div>
-        </Form>
+              <SubmitButton disabled={formSubmited} />
+            </div>
+          </Form>
+        )}
       </div>
     </DashboardTemplate>
   );

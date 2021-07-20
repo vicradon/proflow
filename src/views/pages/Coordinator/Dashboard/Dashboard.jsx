@@ -70,7 +70,9 @@ function CoordinatorDashboard() {
         </div>
         <Loader show={loading} error={error} />
 
-        {!supervisors.length && !loading && <p>No supervisors</p>}
+        {!supervisors.length && !loading && (
+          <p className="text-center">No supervisors</p>
+        )}
         <div className={styles.cards}>
           {supervisors.map((supervisor) => {
             return (

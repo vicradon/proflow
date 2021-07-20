@@ -4,7 +4,13 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import capitalize from "../../utils/capitalize";
 import styles from "./ChapterCard.module.css";
 
-function ChapterCard({ status, index, chapter_id, student_id }) {
+function ChapterCard({
+  status,
+  index,
+  chapter_id,
+  student_id,
+  comments_count,
+}) {
   const cardColor = (() => {
     switch (status) {
       case "approved": {
@@ -31,7 +37,8 @@ function ChapterCard({ status, index, chapter_id, student_id }) {
       >
         <div className="">
           <p className="text-gray small">Chapter</p>
-          <p className="text-18px">{status && capitalize(status)}</p>
+          <p className="text-18px mb-0">{status && capitalize(status)}</p>
+          <p className="mb-0">{comments_count} Comments</p>
         </div>
         <div
           style={{ background: cardColor }}

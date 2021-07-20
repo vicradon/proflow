@@ -29,6 +29,7 @@ import RecentProposal from "./views/pages/Supervisor/RecentProposals/RecentPropo
 import StudentProject from "./views/pages/Supervisor/StudentProject/StudentProject";
 import StudentProjectChapter from "./views/pages/Supervisor/StudentProject/StudentProjectChapter";
 import SupervisorStudents from "./views/pages/Coordinator/SupervisorStudents/SupervisorStudents";
+import ProjectChapter from "./views/pages/Student/ProjectChapter/ProjectChapter";
 
 const Routes = () => {
   const { dispatch } = useContext(Context);
@@ -65,6 +66,10 @@ const Routes = () => {
               component={SupervisorPairing}
             />
             <Route path="/student/project/status" component={ProjectStatus} />
+            <Route
+              path="/student/chapters/:chapter_id"
+              component={ProjectChapter}
+            />
 
             {/* Supervisor Routes */}
             <Route path="/supervisor/login" component={SupervisorLogin} />

@@ -24,7 +24,6 @@ function DashboardNavbar() {
           height={50}
           className={styles.avatar}
           src={user.avatar_url}
-          alt={user.name}
         />
 
         <div className="d-flex flex-column ml-2">

@@ -18,7 +18,8 @@ function StudentProject() {
 
   const fetchChapters = async () => {
     try {
-      const { data } = await maxios.get(`/students/${student_id}/chapters`);
+      const { data } = await maxios.get(`/chapters/?student_id=${student_id}`);
+      console.log(data);
       setChapters(data.chapters);
       setLoading(false);
     } catch (error) {
@@ -30,20 +31,17 @@ function StudentProject() {
     <DashboardTemplate>
       <Loader error={error} show={loading} />
       <div className="mx-4">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          {/* <h3>Project Progress: </h3> */}
-        </div>
-
-        <div className="d-flex justify-content-between align-items-center flex-wrap">
+        <div className="d-flex align-items-center flex-wrap">
           {chapters.map((chapter) => {
             console.log(chapter);
             return (
-              <div key={"chapter card " + chapter.index} className="mb-5">
+              <div key={"chapter card " + chapter.id} className="mb-5 mr-4">
                 <ChapterCard
                   status={chapter.status}
                   index={chapter.serial_number}
                   chapter_id={chapter.id}
                   student_id={chapter.student_id}
+                  comments_count={chapter.comments_count}
                 />
               </div>
             );

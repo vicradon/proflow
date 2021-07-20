@@ -32,16 +32,25 @@ function LandingPage() {
 
   const handleProjectApproval = async () => {
     try {
-      const { data: project_data } = await maxios.get(`/project-status`);
+      const { data: project_data } = await maxios.get(
+        `/project-status?with_avatar_url`
+      );
 
-      switch (project_data.status) {
-        case "approved": {
-          history.push("/student/dashboard");
-          break;
-        }
-        default: {
-          history.push("/student/project/status");
-          break;
+      if (!project_data.avatar_url) {
+        history.push("/student/profile/avatar");
+      } else {
+        switch (project_data.status) {
+          case "approved": {
+            history.push("/student/dashboard");
+            break;
+          }
+          case null: {
+            history.push("/student/project/setup");
+          }
+          default: {
+            history.push("/student/project/status");
+            break;
+          }
         }
       }
     } catch (error) {
