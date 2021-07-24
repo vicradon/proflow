@@ -25,7 +25,9 @@ maxios.interceptors.response.use(
 );
 
 maxios.saveToLocalStorage = (payload) => {
-  localStorage.setItem("jwt", payload.access_token);
+  if (payload.access_token) {
+    localStorage.setItem("jwt", payload.access_token);
+  }
   localStorage.setItem("user", JSON.stringify(payload.user));
 
   const { profile_type } = payload.user;

@@ -11,7 +11,6 @@ import { Link, useHistory } from "react-router-dom";
 import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate";
 import Images from "../../../../components/Images.js";
 import SignupSuccessModal from "../../../../components/SignupSuccessModal";
-import styles from "./signup.module.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import maxios from "../../../../utils/maxios";
 

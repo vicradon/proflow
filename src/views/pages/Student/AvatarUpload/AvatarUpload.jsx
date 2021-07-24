@@ -10,6 +10,23 @@ function AvatarUpload() {
   const [avatar, setAvatar] = useState();
   const history = useHistory();
 
+  let nextRoute = "";
+
+  switch (localStorage.getItem("role")) {
+    case "student": {
+      nextRoute = "/student/project/setup";
+      break;
+    }
+    case "supervisor": {
+      nextRoute = "/supervisor/dashboard";
+      break;
+    }
+    default: {
+      nextRoute = "/";
+      break;
+    }
+  }
+
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -19,8 +36,9 @@ function AvatarUpload() {
       const formData = new FormData();
       formData.append("avatar", avatar);
 
-      await maxios.post("/users/avatar", formData);
-      history.push("/student/project/setup");
+      const { data } = await maxios.post("/users/avatar", formData);
+      maxios.saveToLocalStorage(data);
+      history.push(nextRoute);
     } catch (error) {
       const errors = error.response.data.errors
         ? Object.values(error.response.data.errors).join("\n")

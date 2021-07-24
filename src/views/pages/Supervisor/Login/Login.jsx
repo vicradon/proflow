@@ -27,7 +27,12 @@ function SupervisorLogin() {
         setFormSubmitted(false);
       } else {
         maxios.saveToLocalStorage(data);
-        window.location.href = "/supervisor/dashboard";
+
+        if (!data.user.avatar_url) {
+          window.location.href = "/supervisor/avatar-upload";
+        } else {
+          window.location.href = "/supervisor/dashboard";
+        }
       }
     } catch (error) {
       setError(error.response.data.message);

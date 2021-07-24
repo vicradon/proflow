@@ -3,20 +3,31 @@ import { Modal, Form } from "react-bootstrap";
 import SubmitButton from "../../../../components/SubmitButton.jsx";
 import maxios from "../../../../utils/maxios";
 
-function AddSupervisorModalForm({ showModal, closeModal, addToSupervisors }) {
+function AddSupervisorModalForm({
+  showModal,
+  closeModal,
+  addToSupervisors,
+  projectCategories,
+}) {
   const [formSubmitted, setFormSubmitted] = useState(false);
+
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     department: "",
-    project_category: "iot",
+    project_category: "",
   });
   const handleInputChange = ({ target }) => {
     const { name, value } = target;
     setFormData({ ...formData, [name]: value });
   };
-  useEffect(() => {}, []);
+
+  useEffect(() => {
+    if (projectCategories.length > 0) {
+      setFormData({ ...formData, project_category: projectCategories[0].name });
+    }
+  }, [projectCategories]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -53,20 +64,24 @@ function AddSupervisorModalForm({ showModal, closeModal, addToSupervisors }) {
               required
             />
           </Form.Row>
-          <Form.Row className="mb-3 w-100">
-            <Form.Label>Supervisors category</Form.Label>
-            <select
-              name="project_category"
-              onChange={handleInputChange}
-              className="form-control"
-              defaultValue="iot"
-              required
-            >
-              <option value="iot">IoT</option>
-              <option value="transportation">Transportation</option>
-              <option value="communication">Communication</option>
-            </select>
-          </Form.Row>
+          {projectCategories.length > 0 && (
+            <Form.Row className="mb-3 w-100">
+              <Form.Label>Supervisors category</Form.Label>
+              <select
+                name="project_category"
+                onChange={handleInputChange}
+                className="form-control"
+                defaultValue={projectCategories[0].name}
+                required
+              >
+                {projectCategories.map((category) => (
+                  <option key={category.name} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </Form.Row>
+          )}
           <Form.Row className="mb-3 w-100">
             <Form.Label>Department</Form.Label>
             <Form.Control

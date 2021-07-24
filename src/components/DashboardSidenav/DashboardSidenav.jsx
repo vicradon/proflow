@@ -80,15 +80,25 @@ function DashboardSidenav() {
             >
               Dashboard
             </Nav.Link>
-            {/* <Nav.Link
+            <Nav.Link
               as={NavLink}
               activeClassName={styles.active_link}
               to="/coordinator/project-categories"
-              eventKey="project-categories"
+              eventKey="/coordinator/project-categories"
               className={navlink_style}
+              exact
             >
               Project Categories
-            </Nav.Link> */}
+            </Nav.Link>
+            <Nav.Link
+              as={NavLink}
+              activeClassName={styles.active_link}
+              to="/coordinator/project-categories/add"
+              eventKey="/coordinator/project-categories/add"
+              className={navlink_style}
+            >
+              Add Project Category
+            </Nav.Link>
           </Fragment>
         )}
 

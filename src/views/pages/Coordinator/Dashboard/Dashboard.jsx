@@ -6,21 +6,25 @@ import AddSupervisorModalForm from "./AddSupervisorModalForm";
 import maxios from "../../../../utils/maxios";
 import Loader from "../../../../components/Loader.jsx";
 import SupervisorCard from "../../../../components/SupervisorCard/SupervisorCard";
+import { Link } from "react-router-dom";
 
 function CoordinatorDashboard() {
   const [supervisorModalVisible, setSupervisorModalVisible] = useState(false);
   const [supervisors, setSupervisors] = useState([]);
+  const [projectCategories, setProjectCategories] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchSupervisors();
+    fetchSupervisorsAndProjectCategories();
   }, []);
 
-  const fetchSupervisors = async () => {
+  const fetchSupervisorsAndProjectCategories = async () => {
     try {
       const { data } = await maxios.get("/supervisors");
+      const { data: data1 } = await maxios.get("/project-categories");
       setSupervisors(data.supervisors);
+      setProjectCategories(data1.project_categories);
       setLoading(false);
     } catch (error) {
       console.log(9);
@@ -37,18 +41,18 @@ function CoordinatorDashboard() {
     <DashboardTemplate>
       <div className="mx-4">
         <div className="rounded d-flex justify-content-between flex-wrap align-items-center mb-2">
-          <div className="d-flex justify-content-center bg-white px-5 py-2 w-100 mx-auto align-items-center">
+          <div className="d-flex bg-white px-5 py-2 w-100 mx-auto align-items-center">
             <div>
               <h5 className="text-primary">Supervisors</h5>
               <p>Showing all supervisors</p>
             </div>
-            <input
+            {/* <input
               type="text"
               className="form-control ml-3"
               placeholder="Search for Supervisors"
-            />
+            /> */}
 
-            <label className="ml-4" htmlFor="exampleFormControlSelect1">
+            {/* <label className="ml-4" htmlFor="exampleFormControlSelect1">
               Filter:
             </label>
             <select
@@ -57,14 +61,14 @@ function CoordinatorDashboard() {
               id="exampleFormControlSelect1"
             >
               <option value="all">All categories</option>
-              <option value="iot">IoT</option>
-              <option value="communication">Communication</option>
-              <option value="transportation">Transportation</option>
-            </select>
+            </select> */}
           </div>
         </div>
         <div className="d-flex justify-content-end">
-          <Button onClick={() => setSupervisorModalVisible(true)}>
+          <Button
+            disabled={projectCategories.length === 0}
+            onClick={() => setSupervisorModalVisible(true)}
+          >
             Add Supervisor
           </Button>
         </div>
@@ -72,6 +76,13 @@ function CoordinatorDashboard() {
 
         {!supervisors.length && !loading && (
           <p className="text-center">No supervisors</p>
+        )}
+
+        {!projectCategories.length && !loading && (
+          <p className="text-center">
+            No project categories, click{" "}
+            <Link to="/coordinator/project-categories">here</Link> to create one
+          </p>
         )}
         <div className={styles.cards}>
           {supervisors.map((supervisor) => {
@@ -93,6 +104,7 @@ function CoordinatorDashboard() {
         showModal={supervisorModalVisible}
         closeModal={() => setSupervisorModalVisible(false)}
         addToSupervisors={addToSupervisors}
+        projectCategories={projectCategories}
       />
     </DashboardTemplate>
   );

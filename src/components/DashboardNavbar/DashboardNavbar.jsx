@@ -14,9 +14,9 @@ function DashboardNavbar() {
         " bg-white px-4 py-2 mb-3 shadow d-flex justify-content-end"
       }
     >
-      <Button variant="light">
+      {/* <Button variant="light">
         <MdNotifications size={24} />
-      </Button>
+      </Button> */}
 
       <div className="d-flex align-items-center ml-2">
         <img

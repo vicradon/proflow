@@ -32,10 +32,9 @@ function SupervisorDashboard() {
 
   return (
     <DashboardTemplate>
-      <Loader error={error} show={loading} />
       <div className="mx-4">
         <div>
-          <div className={styles.search_container}>
+          {/* <div className={styles.search_container}>
             <InputGroup className="w-50">
               <InputGroup.Prepend>
                 <InputGroup.Text id="basic-addon1">
@@ -60,7 +59,9 @@ function SupervisorDashboard() {
               <option value="approved">Approved projects</option>
               <option value="rejected">Rejected projects</option>
             </select>
-          </div>
+          </div> */}
+
+          <h2>Students</h2>
 
           <Table className={"bg-white " + styles.table} hover responsive>
             <thead>
@@ -74,7 +75,6 @@ function SupervisorDashboard() {
             </thead>
             <tbody>
               {students.map((student, index) => {
-                console.log(student);
                 return (
                   <tr key={index}>
                     <td className="d-flex align-items-center p-3">
@@ -115,7 +115,9 @@ function SupervisorDashboard() {
               })}
             </tbody>
           </Table>
-          {!students.length && (
+          <Loader error={error} show={loading} />
+
+          {!students.length && !loading && (
             <p className="text-center">No students were assigned to you</p>
           )}
         </div>

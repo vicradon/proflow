@@ -17,7 +17,8 @@ import ProjectStatus from "./views/pages/Student/ProjectStatus/ProjectStatus";
 import CoordinatorSignup from "./views/pages/Coordinator/Signup/Signup";
 import CoordinatorLogin from "./views/pages/Coordinator/Login/Login";
 import CoordinatorDashboard from "./views/pages/Coordinator/Dashboard/Dashboard";
-import ProjectCategory from "./views/pages/Coordinator/ProjectCategory/ProjectCategory";
+import CreateProjectCategory from "./views/pages/Coordinator/ProjectCategories/CreateProjectCategory";
+import ProjectCategories from "./views/pages/Coordinator/ProjectCategories/ProjectCategories";
 import SupervisorLogin from "./views/pages/Supervisor/Login/Login";
 import LandingPage from "./views/pages/LandingPage";
 import SupervisorDashboard from "./views/pages/Supervisor/Dashboard/Dashboard";
@@ -30,6 +31,7 @@ import StudentProject from "./views/pages/Supervisor/StudentProject/StudentProje
 import StudentProjectChapter from "./views/pages/Supervisor/StudentProject/StudentProjectChapter";
 import SupervisorStudents from "./views/pages/Coordinator/SupervisorStudents/SupervisorStudents";
 import ProjectChapter from "./views/pages/Student/ProjectChapter/ProjectChapter";
+import PasswordUpdate from "./views/pages/Supervisor/Profile/PasswordUpdate";
 
 const Routes = () => {
   const { dispatch } = useContext(Context);
@@ -74,6 +76,11 @@ const Routes = () => {
             {/* Supervisor Routes */}
             <Route path="/supervisor/login" component={SupervisorLogin} />
             <Route
+              path="/supervisor/password-update"
+              component={PasswordUpdate}
+            />
+            <Route path="/supervisor/avatar-upload" component={AvatarUpload} />
+            <Route
               path="/supervisor/dashboard"
               component={SupervisorDashboard}
             />
@@ -102,8 +109,14 @@ const Routes = () => {
             <Route path="/coordinator/signup" component={CoordinatorSignup} />
             <Route path="/coordinator/login" component={CoordinatorLogin} />
             <Route
-              path="/coordinator/project/add"
-              component={ProjectCategory}
+              path="/coordinator/project-categories"
+              component={ProjectCategories}
+              exact
+            />
+            <Route
+              path="/coordinator/project-categories/add"
+              component={CreateProjectCategory}
+              exact
             />
             <Route path="/coordinator/login" component={CoordinatorLogin} />
             <Route

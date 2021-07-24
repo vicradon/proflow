@@ -30,8 +30,13 @@ function CoordinatorLogin() {
         window.location.href = "/coordinator/dashboard";
       }
     } catch (error) {
-      setError(error.response.data.message);
-      setFormSubmitted(false);
+      if (!error.response) {
+        setFormSubmitted(false);
+        setError("Server down or internet disconnected");
+      } else {
+        setError(error.response.data.message);
+        setFormSubmitted(false);
+      }
     }
   };
   return (

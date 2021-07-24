@@ -9,12 +9,13 @@ import LoadingPage from "../../Shared/LoadingPage";
 function ProjectDetails() {
   const [loading, setLoading] = useState(true);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [projectCategories, setProjectCategories] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [error, setError] = useState("");
   const history = useHistory();
   const [formData, setFormData] = useState({
     name: "",
-    category: "",
+    project_category: "",
     description: "",
     project_id: "",
   });
@@ -26,9 +27,18 @@ function ProjectDetails() {
   useEffect(() => {
     checkForRejectedProject();
   }, []);
+  useEffect(() => {
+    if (projectCategories.length > 0) {
+      setFormData({ ...formData, project_category: projectCategories[0].name });
+    }
+  }, [projectCategories]);
 
   const checkForRejectedProject = async () => {
     try {
+      const { data: projectCategoriesData } = await maxios.get(
+        "/project-categories"
+      );
+      setProjectCategories(projectCategoriesData.project_categories);
       const { data: project_data } = await maxios.get(`/project-status`);
       if (project_data.status === "rejected") {
         const { data: project_details } = await maxios.get("/project");
@@ -37,7 +47,7 @@ function ProjectDetails() {
           ...formData,
           name: project_details.project.name,
           description: project_details.project.description,
-          category: project_details.project.project_category.name,
+          project_category: project_details.project.project_category.name,
           project_id: project_details.project.id,
         });
         setLoading(false);
@@ -53,9 +63,9 @@ function ProjectDetails() {
 
   const handleSubmit = async (event) => {
     try {
+      event.preventDefault();
       setError("");
       setFormSubmitted(true);
-      event.preventDefault();
 
       if (editMode) {
         await maxios.patch(`/projects/${formData.project_id}`, formData);
@@ -65,11 +75,6 @@ function ProjectDetails() {
 
       history.push(`/student/project/status`);
     } catch (error) {
-      // const errors = error.response.data.errors
-      //   ? Object.values(error.response.data.errors).join("\n")
-      //   : "An error occured, our engineers are working hard to fix it";
-      // setError(errors);
-
       setError(error.response.data.message);
       setFormSubmitted(false);
     }
@@ -100,22 +105,27 @@ function ProjectDetails() {
                 placeholder="e.g. Automating logistics hauling in Nigeria."
               />
             </Form.Group>
-            {!editMode && (
+            {!editMode && projectCategories.length > 0 && (
               <Form.Group className="mb-3">
                 <Form.Label>Project Category</Form.Label>
 
                 <Form.Control
-                  name="category"
-                  value={formData.category}
+                  name="project_category"
+                  // value={formData.category}
                   onChange={handleInputChange}
                   required
                   as="select"
                   custom
+                  defaultValue={projectCategories[0].name}
                 >
-                  <option value="">Select Project Category</option>
-                  <option value="iot">IoT</option>
-                  <option value="transportation">Transportation</option>
-                  <option value="communication">Communication</option>
+                  {projectCategories.map((projectCategory) => (
+                    <option
+                      key={projectCategory.name}
+                      value={projectCategory.name}
+                    >
+                      {projectCategory.name}
+                    </option>
+                  ))}
                 </Form.Control>
               </Form.Group>
             )}{" "}
