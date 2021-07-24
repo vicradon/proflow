@@ -82,6 +82,7 @@ function SupervisorDashboard() {
                         src={student.user.avatar_url}
                         alt={student.user.name}
                         className={styles.avatar}
+                        width={50}
                       />
                       <span className="ml-1">{student.user.name}</span>
                     </td>

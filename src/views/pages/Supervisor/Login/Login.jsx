@@ -1,18 +1,21 @@
 import { useState } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import maxios from "../../../../utils/maxios";
 import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate";
 
 function SupervisorLogin() {
-  const [formDetails, setFormDetails] = useState({ email: "", password: "" });
+  const { email, password, return_url } = useParams();
+  const [formDetails, setFormDetails] = useState({
+    email: email ? email : "",
+    password: password ? password : "",
+  });
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [error, setError] = useState("");
   const handleInputChange = ({ target }) => {
     const { name, value } = target;
     setFormDetails({ ...formDetails, [name]: value });
   };
-  const history = useHistory();
 
   const handleLogin = async (event) => {
     try {
@@ -27,6 +30,10 @@ function SupervisorLogin() {
         setFormSubmitted(false);
       } else {
         maxios.saveToLocalStorage(data);
+
+        if (return_url) {
+          window.location.href = return_url;
+        }
 
         if (!data.user.avatar_url) {
           window.location.href = "/supervisor/avatar-upload";

@@ -8,6 +8,8 @@ function AddSupervisorModalForm({
   closeModal,
   addToSupervisors,
   projectCategories,
+  summary,
+  setSummary,
 }) {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -36,6 +38,10 @@ function AddSupervisorModalForm({
       const { data } = await maxios.post("/supervisor/register", formData);
       addToSupervisors(data.supervisor);
       setFormSubmitted(false);
+      setSummary({
+        ...summary,
+        supervisor_count: summary.supervisor_count + 1,
+      });
       closeModal();
     } catch (error) {
       setError(error.response.data.message);

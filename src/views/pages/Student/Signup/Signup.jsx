@@ -38,28 +38,28 @@ function StudentSignup() {
   const formik = useFormik({
     // For use when speed testing
 
-    initialValues: {
-      first_name: "John",
-      last_name: "Doe",
-      email: "vonnewman@gmail.com",
-      phone_number: "082934874832",
-      reg_number: "20178439284",
-      department: "Mechanical Science",
-      password: "password",
-      confirmPassword: "password",
-      terms: true,
-    },
     // initialValues: {
-    //   first_name: "",
-    //   last_name: "",
-    //   email: "",
-    //   phone_number: "",
-    //   reg_number: "",
-    //   department: "",
-    //   password: "",
-    //   confirmPassword: "",
-    //   terms: false,
+    //   first_name: "John",
+    //   last_name: "Doe",
+    //   email: "vonnewman@gmail.com",
+    //   phone_number: "082934874832",
+    //   reg_number: "20178439284",
+    //   department: "Mechanical Science",
+    //   password: "password",
+    //   confirmPassword: "password",
+    //   terms: true,
     // },
+    initialValues: {
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone_number: "",
+      reg_number: "",
+      department: "",
+      password: "",
+      confirmPassword: "",
+      terms: false,
+    },
     validationSchema: schema,
     onSubmit: async (values) => {
       try {
