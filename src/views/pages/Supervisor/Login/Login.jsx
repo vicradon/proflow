@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import maxios from "../../../../utils/maxios";
 import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate";
 
 function SupervisorLogin() {
-  const { email, password, return_url } = useParams();
+  const location = useLocation();
+
+  const searchParameters = new URLSearchParams(location.search);
+  const email = searchParameters.get("email");
+  const password = searchParameters.get("password");
+  const return_url = searchParameters.get("return_url");
+
   const [formDetails, setFormDetails] = useState({
     email: email ? email : "",
     password: password ? password : "",
@@ -60,6 +66,7 @@ function SupervisorLogin() {
             onChange={handleInputChange}
             name="email"
             placeholder="e.g. John"
+            value={formDetails.email}
           />
         </Form.Row>
         <Form.Row className="mb-3 w-100">
@@ -69,6 +76,7 @@ function SupervisorLogin() {
             type="password"
             placeholder="e.g. Pass#45!"
             onChange={handleInputChange}
+            value={formDetails.password}
           />
         </Form.Row>
 

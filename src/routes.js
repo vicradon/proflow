@@ -74,11 +74,7 @@ const Routes = () => {
             />
 
             {/* Supervisor Routes */}
-            <Route
-              path="/supervisor/login/:password"
-              exact
-              component={SupervisorLogin}
-            />
+            <Route path="/supervisor/login" exact component={SupervisorLogin} />
             <Route
               path="/supervisor/password-update"
               component={PasswordUpdate}
