@@ -69,7 +69,10 @@ function ProjectChapter() {
           {!chapter && <p>Chapter {chapter_id} does not exist</p>}
           {!loading && chapter && (
             <Document
-              file={cors_proxy + pdfPath}
+              file={{
+                url: pdfPath,
+                httpHeaders: { "Access Control Allow Origin": "*" },
+              }}
               onLoadSuccess={onDocumentLoadSuccess}
             >
               {chapter.end_page > chapter.start_page &&
