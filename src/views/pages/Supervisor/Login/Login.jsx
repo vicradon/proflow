@@ -39,12 +39,12 @@ function SupervisorLogin() {
 
         if (return_url) {
           window.location.href = return_url;
-        }
-
-        if (!data.user.avatar_url) {
-          window.location.href = "/supervisor/avatar-upload";
         } else {
-          window.location.href = "/supervisor/dashboard";
+          if (!data.user.avatar_url) {
+            window.location.href = "/supervisor/password-update";
+          } else {
+            window.location.href = "/supervisor/dashboard";
+          }
         }
       }
     } catch (error) {

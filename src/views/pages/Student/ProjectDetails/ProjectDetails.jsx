@@ -90,7 +90,7 @@ function ProjectDetails() {
     <Fragment>
       {loading && <LoadingPage />}
       {!loading && (
-        <GeneralTemplate noAuth>
+        <GeneralTemplate>
           {supervisorCount === 0 && (
             <p className="text-center">
               No supervisor has been added, so project creation is currently not

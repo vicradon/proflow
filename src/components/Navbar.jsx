@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Context } from "../store.js";
 import Images from "./Images.js";
 
-function Navbar({ noAuth }) {
+function Navbar() {
   const { state } = useContext(Context);
 
   const logoutUser = () => {
@@ -52,10 +52,10 @@ function Navbar({ noAuth }) {
     <div className="container d-flex justify-content-between">
       <img src={Images.TextLogo} alt="proflow" />
       {localStorage.getItem("stuff")}
-      {!noAuth && state.user.isAuthenticated && (
+      {state.user.isAuthenticated && (
         <Button onClick={logoutUser}>Logout</Button>
       )}
-      {!noAuth && !state.user.isAuthenticated && <UnAuthComponents />}
+      {!state.user.isAuthenticated && <UnAuthComponents />}
     </div>
   );
 }

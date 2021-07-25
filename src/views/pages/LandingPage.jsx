@@ -46,6 +46,7 @@ function LandingPage() {
           }
           case null: {
             history.push("/student/project/setup");
+            break;
           }
           default: {
             history.push("/student/project/status");

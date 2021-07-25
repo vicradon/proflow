@@ -7,7 +7,7 @@ function SupervisorPairing() {
   const { supervisor_id } = useParams();
 
   return (
-    <GeneralTemplate noAuth>
+    <GeneralTemplate>
       <div className="d-flex flex-column align-items-center">
         <h5 className="text-center">Supervisors pairing</h5>
 

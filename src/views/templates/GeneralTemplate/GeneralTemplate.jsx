@@ -1,11 +1,11 @@
 import Navbar from "../../../components/Navbar.jsx";
 import styles from "./GeneralTemplate.module.css";
 
-function GeneralTemplate({ noAuth, children }) {
+function GeneralTemplate({ children }) {
   return (
     <div>
       <div className="py-2">
-        <Navbar noAuth={noAuth} />
+        <Navbar />
         <hr className="my-3" />
       </div>
 

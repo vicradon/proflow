@@ -33,6 +33,18 @@ import SupervisorStudents from "./views/pages/Coordinator/SupervisorStudents/Sup
 import ProjectChapter from "./views/pages/Student/ProjectChapter/ProjectChapter";
 import PasswordUpdate from "./views/pages/Supervisor/Profile/PasswordUpdate";
 
+const RoleRoute = ({ component: Component, path, ...others }) => {
+  const role = localStorage.getItem("role");
+  const roleFromPath = path.split("/")[1];
+  return (
+    <Route
+      path={path}
+      render={() => (role === roleFromPath ? <Component /> : <NotFound />)}
+      {...others}
+    />
+  );
+};
+
 const Routes = () => {
   const { dispatch } = useContext(Context);
   const isAuthenticated = localStorage.getItem("jwt");
@@ -55,51 +67,66 @@ const Routes = () => {
             {/* Student Routes */}
             <Route path="/student/signup" exact component={StudentSignup} />
             <Route path="/student/login" component={StudentLogin} />
-            <Route path="/student/dashboard" component={StudentDashboard} />
-            <Route path="/student/profile/avatar" component={AvatarUpload} />
-            <Route path="/student/project/setup" component={ProjectDetails} />
-            <Route path="/student/project/upload" component={ProjectUpload} />
-            <Route
+            <RoleRoute path="/student/dashboard" component={StudentDashboard} />
+            <RoleRoute
+              path="/student/profile/avatar"
+              component={AvatarUpload}
+            />
+            <RoleRoute
+              path="/student/project/setup"
+              component={ProjectDetails}
+            />
+            <RoleRoute
+              path="/student/project/upload"
+              component={ProjectUpload}
+            />
+            <RoleRoute
               path="/student/project/chapters/:chapter_id"
               component={ProjectDetails}
             />
-            <Route
+            <RoleRoute
               path="/student/project/pairing/:supervisor_id"
               component={SupervisorPairing}
             />
-            <Route path="/student/project/status" component={ProjectStatus} />
-            <Route
+            <RoleRoute
+              path="/student/project/status"
+              component={ProjectStatus}
+            />
+            <RoleRoute
               path="/student/chapters/:chapter_id"
               component={ProjectChapter}
             />
 
             {/* Supervisor Routes */}
             <Route path="/supervisor/login" exact component={SupervisorLogin} />
-            <Route
+            <RoleRoute
               path="/supervisor/password-update"
               component={PasswordUpdate}
             />
-            <Route path="/supervisor/avatar-upload" component={AvatarUpload} />
-            <Route
+            <RoleRoute
+              path="/supervisor/avatar-upload"
+              component={AvatarUpload}
+            />
+            <RoleRoute
               path="/supervisor/dashboard"
               component={SupervisorDashboard}
             />
-            <Route
+            <RoleRoute
               path="/supervisor/recent-proposals"
               exact
               component={RecentProposals}
             />
-            <Route
+            <RoleRoute
               path="/supervisor/recent-proposals/:proposal_id"
               exact
               component={RecentProposal}
             />
-            <Route
+            <RoleRoute
               path="/supervisor/students/:student_id"
               exact
               component={StudentProject}
             />
-            <Route
+            <RoleRoute
               path="/supervisor/students/:student_id/chapters/:chapter_id"
               exact
               component={StudentProjectChapter}
@@ -108,23 +135,22 @@ const Routes = () => {
             {/* Coordinator Routes */}
             <Route path="/coordinator/signup" component={CoordinatorSignup} />
             <Route path="/coordinator/login" component={CoordinatorLogin} />
-            <Route
+            <RoleRoute
               path="/coordinator/project-categories"
               component={ProjectCategories}
               exact
             />
-            <Route
+            <RoleRoute
               path="/coordinator/project-categories/add"
               component={CreateProjectCategory}
               exact
             />
-            <Route path="/coordinator/login" component={CoordinatorLogin} />
-            <Route
+            <RoleRoute
               exact
               path="/coordinator/dashboard"
               component={CoordinatorDashboard}
             />
-            <Route
+            <RoleRoute
               path="/coordinator/supervisors/:supervisor_id/students"
               component={SupervisorStudents}
             />
