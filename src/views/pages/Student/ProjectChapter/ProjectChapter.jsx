@@ -70,8 +70,7 @@ function ProjectChapter() {
           {!loading && chapter && (
             <Document
               file={{
-                url: pdfPath,
-                httpHeaders: { "Access Control Allow Origin": "*" },
+                url: cors_proxy + pdfPath,
               }}
               onLoadSuccess={onDocumentLoadSuccess}
             >
