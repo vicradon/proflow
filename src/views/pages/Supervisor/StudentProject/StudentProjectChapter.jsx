@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
+import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import Loader from "../../../../components/Loader";
 import maxios from "../../../../utils/maxios";
@@ -12,6 +13,7 @@ import range from "../../../../utils/range";
 function StudentProjectChapter() {
   const { student_id, chapter_id } = useParams();
   const [loading, setLoading] = useState(true);
+  const [showApproveButton, setApproveButton] = useState(true);
   const [error, setError] = useState("");
   const [chapter, setChapter] = useState({});
   const [formSubmitting, setFormSubmitting] = useState(false);
@@ -39,6 +41,8 @@ function StudentProjectChapter() {
       setChapter(data.chapter);
       setPdfPath(data.pdf_path);
       setComments(data.comments);
+
+      if (data.chapter.status === "approved") setApproveButton(false);
 
       setLoading(false);
     } catch (error) {
@@ -99,6 +103,23 @@ function StudentProjectChapter() {
     });
   };
 
+  const [projectApproving, setProjectApproving] = useState(false);
+  const approveChapter = async () => {
+    try {
+      setProjectApproving(true);
+      const { data } = await maxios.patch(`/chapters/${chapter.id}`, {
+        status: "approve",
+      });
+      toast.success("Chapter Approved Successfully!");
+      setApproveButton(false);
+
+      setProjectApproving(false);
+    } catch (error) {
+      setProjectApproving(false);
+      setError(error.response.data.message);
+    }
+  };
+
   return (
     <DashboardTemplate>
       <Loader error={error} show={loading} />
@@ -106,82 +127,99 @@ function StudentProjectChapter() {
         <div className="d-flex flex-column flex-wrap align-items-center">
           {!chapter && <p>Chapter {chapter_id} does not exist</p>}
           {!loading && chapter && (
-            <Document
-              file={cors_proxy + pdfPath}
-              onLoadSuccess={onDocumentLoadSuccess}
-            >
-              {chapter.end_page > chapter.start_page &&
-                range(chapter.start_page, chapter.end_page).map(
-                  (page_number, index) => {
-                    const pageComment = comments.find(
-                      (comment) => comment.page_number === page_number
-                    );
+            <Fragment>
+              <Document
+                file={cors_proxy + pdfPath}
+                onLoadSuccess={onDocumentLoadSuccess}
+              >
+                {chapter.end_page > chapter.start_page &&
+                  range(chapter.start_page, chapter.end_page).map(
+                    (page_number, index) => {
+                      const pageComment = comments.find(
+                        (comment) => comment.page_number === page_number
+                      );
 
-                    return (
-                      <div key={index} className="mb-3 d-flex">
-                        <Page
-                          key={index}
-                          width={800}
-                          pageNumber={page_number}
-                        />
-                        <OverlayTrigger
-                          trigger="click"
-                          placement="left"
-                          rootClose={true}
-                          overlay={
-                            <Popover className="rounded-lg shadow-sm">
-                              <Popover.Content>
-                                <Form
-                                  onSubmit={(event) => {
-                                    pageComment
-                                      ? updateComment(event, pageComment.id)
-                                      : createComment(event);
-                                  }}
-                                >
-                                  <Form.Row className="mb-3">
-                                    <Form.Label>Comment</Form.Label>
-                                    <Form.Control
-                                      name="comment"
-                                      as="textarea"
-                                      rows={3}
-                                      placeholder="e.g. This page needs images"
-                                      onChange={handleCommentInputChange}
-                                      value={activeComment.comment_text}
-                                    />
-                                  </Form.Row>
+                      return (
+                        <div key={index} className="mb-3 d-flex">
+                          <Page
+                            key={index}
+                            width={800}
+                            pageNumber={page_number}
+                          />
+                          {showApproveButton && (
+                            <OverlayTrigger
+                              trigger="click"
+                              placement="left"
+                              rootClose={true}
+                              overlay={
+                                <Popover className="rounded-lg shadow-sm">
+                                  <Popover.Content>
+                                    <Form
+                                      onSubmit={(event) => {
+                                        pageComment
+                                          ? updateComment(event, pageComment.id)
+                                          : createComment(event);
+                                      }}
+                                    >
+                                      <Form.Row className="mb-3">
+                                        <Form.Label>Comment</Form.Label>
+                                        <Form.Control
+                                          name="comment"
+                                          as="textarea"
+                                          rows={3}
+                                          placeholder="e.g. This page needs images"
+                                          onChange={handleCommentInputChange}
+                                          value={activeComment.comment_text}
+                                        />
+                                      </Form.Row>
 
-                                  <SubmitButton
-                                    className="d-block float-right mb-2"
-                                    size="sm"
-                                    type="submit"
-                                    disabled={formSubmitting}
-                                  >
-                                    {pageComment ? "Update" : "add"}
-                                  </SubmitButton>
-                                </Form>
-                              </Popover.Content>
-                            </Popover>
-                          }
-                        >
-                          <Button
-                            onClick={() =>
-                              handleCommentButtonClick(pageComment, page_number)
-                            }
-                            variant="transparent"
-                            className="ml-2"
-                          >
-                            {pageComment ? (
-                              <BiCommentEdit size={24} />
-                            ) : (
-                              <BiCommentAdd size={24} />
-                            )}
-                          </Button>
-                        </OverlayTrigger>
-                      </div>
-                    );
-                  }
-                )}
-            </Document>
+                                      <SubmitButton
+                                        className="d-block float-right mb-2"
+                                        size="sm"
+                                        type="submit"
+                                        disabled={formSubmitting}
+                                      >
+                                        {pageComment ? "Update" : "add"}
+                                      </SubmitButton>
+                                    </Form>
+                                  </Popover.Content>
+                                </Popover>
+                              }
+                            >
+                              <Button
+                                onClick={() =>
+                                  handleCommentButtonClick(
+                                    pageComment,
+                                    page_number
+                                  )
+                                }
+                                variant="transparent"
+                                className="ml-2"
+                              >
+                                {pageComment ? (
+                                  <BiCommentEdit size={24} />
+                                ) : (
+                                  <BiCommentAdd size={24} />
+                                )}
+                              </Button>
+                            </OverlayTrigger>
+                          )}
+                        </div>
+                      );
+                    }
+                  )}
+              </Document>
+              {showApproveButton && (
+                <div className="d-flex justify-content-center mb-4">
+                  <SubmitButton
+                    disabled={projectApproving}
+                    onClick={approveChapter}
+                  >
+                    Approve
+                  </SubmitButton>
+                </div>
+              )}
+            </Fragment>
           )}
         </div>
       </div>
