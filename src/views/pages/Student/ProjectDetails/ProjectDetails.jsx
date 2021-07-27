@@ -74,7 +74,10 @@ function ProjectDetails() {
       setFormSubmitted(true);
 
       if (editMode) {
-        await maxios.patch(`/projects/${formData.project_id}`, formData);
+        await maxios.patch(`/projects/${formData.project_id}`, {
+          ...formData,
+          status: "pending",
+        });
       } else {
         await maxios.post("/projects", formData);
       }
