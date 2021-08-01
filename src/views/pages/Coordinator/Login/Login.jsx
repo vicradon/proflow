@@ -3,6 +3,7 @@ import { Button, Form, Spinner } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import maxios from "../../../../utils/maxios";
 import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate";
+import errorHandler from "../../../../utils/errorHandler";
 
 function CoordinatorLogin() {
   const [formDetails, setFormDetails] = useState({ email: "", password: "" });
@@ -34,7 +35,7 @@ function CoordinatorLogin() {
         setFormSubmitted(false);
         setError("Server down or internet disconnected");
       } else {
-        setError(error.response.data.message);
+        errorHandler(error).then((message) => setError(message));
         setFormSubmitted(false);
       }
     }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Loader from "../../../../components/Loader";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate";
 import maxios from "../../../../utils/maxios";
+import errorHandler from "../../../../utils/errorHandler";
 
 function ProjectCategories() {
   const [projectCategories, setProjectCategories] = useState([]);
@@ -19,7 +20,7 @@ function ProjectCategories() {
       setProjectCategories(data.project_categories);
       setLoading(false);
     } catch (error) {
-      setError(error.response.data.message);
+      errorHandler(error).then((message) => setError(message));
       setLoading(false);
     }
   };

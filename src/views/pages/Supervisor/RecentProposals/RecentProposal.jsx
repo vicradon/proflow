@@ -9,6 +9,7 @@ import Loader from "../../../../components/Loader";
 import toast from "react-hot-toast";
 import SubmitButton from "../../../../components/SubmitButton";
 import { Fragment } from "react";
+import errorHandler from "../../../../utils/errorHandler";
 
 function RecentProposal() {
   const { proposal_id } = useParams();
@@ -35,7 +36,7 @@ function RecentProposal() {
       setProposal(data.proposal);
     } catch (error) {
       setLoading(false);
-      setError(error.response.data.message);
+      errorHandler(error).then((message) => setError(message));
     }
   };
 
@@ -57,7 +58,7 @@ function RecentProposal() {
       setActionSubmitting({ approve: false, reject: false });
     } catch (error) {
       setActionSubmitting({ approve: false, reject: false });
-      setError(error.response.data.message);
+      errorHandler(error).then((message) => setError(message));
     }
   };
 

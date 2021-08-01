@@ -32,6 +32,7 @@ import StudentProjectChapter from "./views/pages/Supervisor/StudentProject/Stude
 import SupervisorStudents from "./views/pages/Coordinator/SupervisorStudents/SupervisorStudents";
 import ProjectChapter from "./views/pages/Student/ProjectChapter/ProjectChapter";
 import PasswordUpdate from "./views/pages/Supervisor/Profile/PasswordUpdate";
+import CoordinatorStudents from "./views/pages/Coordinator/Students/Students";
 
 const RoleRoute = ({ component: Component, path, ...others }) => {
   const role = localStorage.getItem("role");
@@ -65,12 +66,15 @@ const Routes = () => {
             <Route path="/" exact component={LandingPage} />
 
             {/* Student Routes */}
-            <Route path="/student/signup" exact component={StudentSignup} />
             <Route path="/student/login" component={StudentLogin} />
             <RoleRoute path="/student/dashboard" component={StudentDashboard} />
             <RoleRoute
               path="/student/profile/avatar"
               component={AvatarUpload}
+            />
+            <RoleRoute
+              path="/student/password-update"
+              component={PasswordUpdate}
             />
             <RoleRoute
               path="/student/project/setup"
@@ -135,6 +139,11 @@ const Routes = () => {
             {/* Coordinator Routes */}
             <Route path="/coordinator/signup" component={CoordinatorSignup} />
             <Route path="/coordinator/login" component={CoordinatorLogin} />
+            <RoleRoute
+              path="/coordinator/students"
+              component={CoordinatorStudents}
+              exact
+            />
             <RoleRoute
               path="/coordinator/project-categories"
               component={ProjectCategories}

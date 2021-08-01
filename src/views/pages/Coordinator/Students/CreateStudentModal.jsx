@@ -4,14 +4,7 @@ import SubmitButton from "../../../../components/SubmitButton.jsx";
 import errorHandler from "../../../../utils/errorHandler.js";
 import maxios from "../../../../utils/maxios";
 
-function AddSupervisorModalForm({
-  showModal,
-  closeModal,
-  addToSupervisors,
-  projectCategories,
-  summary,
-  setSummary,
-}) {
+function CreateStudentModal({ showModal, closeModal, addToStudents }) {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [error, setError] = useState("");
@@ -19,30 +12,22 @@ function AddSupervisorModalForm({
     name: "",
     email: "",
     department: "",
-    project_category: "",
+    reg_number: "",
+    password: "password",
   });
   const handleInputChange = ({ target }) => {
     const { name, value } = target;
     setFormData({ ...formData, [name]: value });
   };
 
-  useEffect(() => {
-    if (projectCategories.length > 0) {
-      setFormData({ ...formData, project_category: projectCategories[0].name });
-    }
-  }, [projectCategories]);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       setFormSubmitted(true);
-      const { data } = await maxios.post("/supervisor/register", formData);
-      addToSupervisors(data.supervisor);
+      const { data } = await maxios.post("/register?role=student", formData);
+      addToStudents(data.user);
       setFormSubmitted(false);
-      setSummary({
-        ...summary,
-        supervisor_count: summary.supervisor_count + 1,
-      });
+
       closeModal();
     } catch (error) {
       errorHandler(error).then((message) => setError(message));
@@ -58,7 +43,7 @@ function AddSupervisorModalForm({
             <Form.Control
               onChange={handleInputChange}
               name="name"
-              placeholder="e.g. Dr John Doe"
+              placeholder="e.g. John Doe"
               required
             />
           </Form.Row>
@@ -71,24 +56,17 @@ function AddSupervisorModalForm({
               required
             />
           </Form.Row>
-          {projectCategories.length > 0 && (
-            <Form.Row className="mb-3 w-100">
-              <Form.Label>Supervisors category</Form.Label>
-              <select
-                name="project_category"
-                onChange={handleInputChange}
-                className="form-control"
-                defaultValue={projectCategories[0].name}
-                required
-              >
-                {projectCategories.map((category) => (
-                  <option key={category.name} value={category.name}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </Form.Row>
-          )}
+
+          <Form.Row className="mb-3 w-100">
+            <Form.Label>Reg Number</Form.Label>
+            <Form.Control
+              onChange={handleInputChange}
+              name="reg_number"
+              placeholder="e.g. 20171038424"
+              required
+            />
+          </Form.Row>
+
           <Form.Row className="mb-3 w-100">
             <Form.Label>Department</Form.Label>
             <Form.Control
@@ -107,4 +85,4 @@ function AddSupervisorModalForm({
   );
 }
 
-export default AddSupervisorModalForm;
+export default CreateStudentModal;

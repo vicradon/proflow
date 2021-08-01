@@ -1,18 +1,26 @@
 import { useState } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import maxios from "../../../../utils/maxios";
 import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate";
 
 function StudentLogin() {
-  const [formDetails, setFormDetails] = useState({ email: "", password: "" });
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [error, setError] = useState("");
   const handleInputChange = ({ target }) => {
     const { name, value } = target;
     setFormDetails({ ...formDetails, [name]: value });
   };
-  const history = useHistory();
+  const location = useLocation();
+  const searchParameters = new URLSearchParams(location.search);
+  const email = searchParameters.get("email");
+  const password = searchParameters.get("password");
+  const next = searchParameters.get("next");
+
+  const [formDetails, setFormDetails] = useState({
+    email: email ? email : "",
+    password: password ? password : "",
+  });
 
   const handleLogin = async (event) => {
     try {
@@ -28,8 +36,11 @@ function StudentLogin() {
       } else {
         maxios.saveToLocalStorage(data);
 
-        // Needed to load the token to maxios
-        window.location.href = "/";
+        if (next) {
+          window.location.href = next;
+        } else {
+          window.location.href = "/";
+        }
       }
     } catch (error) {
       setError(error.response ? error.response.data.message : error.message);
@@ -51,6 +62,7 @@ function StudentLogin() {
             onChange={handleInputChange}
             name="email"
             placeholder="e.g. John"
+            value={formDetails.email}
           />
         </Form.Row>
         <Form.Row className="mb-3 w-100">
@@ -58,7 +70,7 @@ function StudentLogin() {
           <Form.Control
             name="password"
             type="password"
-            placeholder="e.g. Pass#45!"
+            value={formDetails.password}
             onChange={handleInputChange}
           />
         </Form.Row>

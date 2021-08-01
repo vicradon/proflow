@@ -3,6 +3,7 @@ import { Button, Form, Spinner } from "react-bootstrap";
 import { Link, useLocation, useParams } from "react-router-dom";
 import maxios from "../../../../utils/maxios";
 import GeneralTemplate from "../../../templates/GeneralTemplate/GeneralTemplate";
+import errorHandler from "../../../../utils/errorHandler";
 
 function SupervisorLogin() {
   const location = useLocation();
@@ -48,7 +49,7 @@ function SupervisorLogin() {
         }
       }
     } catch (error) {
-      setError(error.response.data.message);
+      errorHandler(error).then((message) => setError(message));
       setFormSubmitted(false);
     }
   };

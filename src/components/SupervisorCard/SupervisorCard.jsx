@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 function SupervisorCard({
   supervisor_id,
   name,
+  email,
   student_count,
   avatar_url,
   category,
@@ -13,6 +14,7 @@ function SupervisorCard({
       <div className={styles.groupcard}>{category}</div>
       <img src={avatar_url} className="rounded-circle mx-auto w-50"></img>
       <h3>{name}</h3>
+      <p>{email}</p>
       <p>Students: {student_count}</p>
       <Link to={`/coordinator/supervisors/${supervisor_id}/students`}>
         View Details

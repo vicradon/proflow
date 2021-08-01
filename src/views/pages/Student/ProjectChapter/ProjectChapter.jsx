@@ -8,6 +8,7 @@ import { BiCommentDetail } from "react-icons/bi";
 import { Button, OverlayTrigger, Popover, Form } from "react-bootstrap";
 import SubmitButton from "../../../../components/SubmitButton";
 import range from "../../../../utils/range";
+import errorHandler from "../../../../utils/errorHandler";
 
 function ProjectChapter() {
   const { chapter_id } = useParams();
@@ -18,10 +19,6 @@ function ProjectChapter() {
 
   const [comments, setComments] = useState([]);
   const [pdfPath, setPdfPath] = useState("");
-  const cors_proxy =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:8080/"
-      : "https://corsanywhere.herokuapp.com/";
 
   useEffect(() => {
     fetchChapterAndComments();
@@ -36,7 +33,7 @@ function ProjectChapter() {
 
       setLoading(false);
     } catch (error) {
-      setError(error.response.data.message);
+      errorHandler(error).then((message) => setError(message));
       setLoading(false);
     }
   };
@@ -68,12 +65,7 @@ function ProjectChapter() {
         <div className="d-flex flex-column flex-wrap align-items-center">
           {!chapter && <p>Chapter {chapter_id} does not exist</p>}
           {!loading && chapter && (
-            <Document
-              file={{
-                url: cors_proxy + pdfPath,
-              }}
-              onLoadSuccess={onDocumentLoadSuccess}
-            >
+            <Document file={pdfPath} onLoadSuccess={onDocumentLoadSuccess}>
               {chapter.end_page > chapter.start_page &&
                 range(chapter.start_page, chapter.end_page).map(
                   (page_number, index) => {

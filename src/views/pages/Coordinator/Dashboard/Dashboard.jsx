@@ -12,6 +12,7 @@ import { IoSchoolOutline } from "react-icons/io5";
 import { MdSupervisorAccount } from "react-icons/md";
 import { AiOutlinePartition } from "react-icons/ai";
 import SummaryCard from "../../../../components/SummaryCard";
+import errorHandler from "../../../../utils/errorHandler";
 
 function CoordinatorDashboard() {
   const [summary, setSummary] = useState({
@@ -41,7 +42,7 @@ function CoordinatorDashboard() {
       setSummary(summaryData.summary);
       setLoading(false);
     } catch (error) {
-      setError(error.response.data.message);
+      errorHandler(error).then((message) => setError(message));
       setLoading(false);
     }
   };
@@ -129,6 +130,7 @@ function CoordinatorDashboard() {
                 key={supervisor.id}
                 supervisor_id={supervisor.id}
                 name={supervisor.user.name}
+                email={supervisor.user.email}
                 student_count={supervisor.student_count}
                 avatar_url={supervisor.user.avatar_url}
                 category={supervisor.project_category.name}

@@ -14,7 +14,7 @@ function DashboardSidenav() {
   return (
     <div className={styles.root}>
       <div className="d-flex justify-content-center py-2">
-        <img width="120px" src={Images.TextLogoWhite} alt="Proflow" />
+        <img width="120px" src={Images.TextLogoWhite} alt="logo" />
       </div>
 
       <hr className={styles.hr} />
@@ -79,6 +79,16 @@ function DashboardSidenav() {
               className={navlink_style}
             >
               Dashboard
+            </Nav.Link>
+            <Nav.Link
+              as={NavLink}
+              activeClassName={styles.active_link}
+              to="/coordinator/students"
+              eventKey="/coordinator/students"
+              className={navlink_style}
+              exact
+            >
+              Students
             </Nav.Link>
             <Nav.Link
               as={NavLink}

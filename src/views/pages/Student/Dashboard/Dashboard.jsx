@@ -21,7 +21,7 @@ function StudentDashboard() {
       setChapters(data.chapters);
       setLoading(false);
     } catch (error) {
-      setError(error.response.data.message);
+      errorHandler(error).then((message) => setError(message));
       setLoading(false);
     }
   };

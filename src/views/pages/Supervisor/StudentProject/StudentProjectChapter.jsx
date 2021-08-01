@@ -9,6 +9,7 @@ import { BiCommentAdd, BiCommentEdit } from "react-icons/bi";
 import { Button, OverlayTrigger, Popover, Form } from "react-bootstrap";
 import SubmitButton from "../../../../components/SubmitButton";
 import range from "../../../../utils/range";
+import errorHandler from "../../../../utils/errorHandler";
 
 function StudentProjectChapter() {
   const { student_id, chapter_id } = useParams();
@@ -24,10 +25,6 @@ function StudentProjectChapter() {
   // comment object { page_number: Number, comment_text: String }
   const [comments, setComments] = useState([]);
   const [pdfPath, setPdfPath] = useState("");
-  const cors_proxy =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:8080/"
-      : "https://corsanywhere.herokuapp.com/";
 
   useEffect(() => {
     fetchChapterAndComments();
@@ -46,7 +43,7 @@ function StudentProjectChapter() {
 
       setLoading(false);
     } catch (error) {
-      // setError(error.response.data.message);
+      // errorHandler(error).then((message) => setError(message));;
       setLoading(false);
     }
   };
@@ -68,6 +65,7 @@ function StudentProjectChapter() {
       setFormSubmitting(false);
       setComments([...comments, data.comment]);
     } catch (error) {
+      errorHandler(error).then((message) => toast.error(message));
       setFormSubmitting(false);
     }
   };
@@ -89,6 +87,7 @@ function StudentProjectChapter() {
       setComments(oldComments);
       setFormSubmitting(false);
     } catch (error) {
+      errorHandler(error).then((message) => toast.error(message));
       setFormSubmitting(false);
     }
   };
@@ -116,7 +115,7 @@ function StudentProjectChapter() {
       setProjectApproving(false);
     } catch (error) {
       setProjectApproving(false);
-      setError(error.response.data.message);
+      errorHandler(error).then((message) => setError(message));
     }
   };
 
@@ -128,10 +127,7 @@ function StudentProjectChapter() {
           {!chapter && <p>Chapter {chapter_id} does not exist</p>}
           {!loading && chapter && (
             <Fragment>
-              <Document
-                file={cors_proxy + pdfPath}
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
+              <Document file={pdfPath} onLoadSuccess={onDocumentLoadSuccess}>
                 {chapter.end_page > chapter.start_page &&
                   range(chapter.start_page, chapter.end_page).map(
                     (page_number, index) => {

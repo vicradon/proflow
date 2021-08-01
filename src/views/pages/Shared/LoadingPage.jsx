@@ -11,7 +11,7 @@ function LoadingPage() {
       }
     >
       <div className="d-flex flex-column justify-content-center align-items-center">
-        <img className="mb-4" src={Images.TextLogo} alt="Proflow" />
+        <img className="mb-4" src={Images.TextLogo} alt="logo" />
         <Loader type="Circles" color="#00BFFF" height={100} width={100} />
       </div>
     </div>

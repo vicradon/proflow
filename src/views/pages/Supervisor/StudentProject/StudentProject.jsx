@@ -5,6 +5,7 @@ import Loader from "../../../../components/Loader";
 import maxios from "../../../../utils/maxios";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate";
 import ChapterCard from "../../../../components/ChapterCard/ChapterCard";
+import errorHandler from "../../../../utils/errorHandler";
 
 function StudentProject() {
   const { student_id } = useParams();
@@ -23,7 +24,7 @@ function StudentProject() {
       setChapters(data.chapters);
       setLoading(false);
     } catch (error) {
-      setError(error.response.data.message);
+      errorHandler(error).then((message) => setError(message));
       setLoading(false);
     }
   };

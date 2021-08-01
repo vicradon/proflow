@@ -5,6 +5,7 @@ import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import maxios from "../../../../utils/maxios";
 import SubmitButton from "../../../../components/SubmitButton";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import errorHandler from "../../../../utils/errorHandler";
 
 function PasswordUpdate() {
   const [formSubmiting, setFormSubmiting] = useState(false);
@@ -13,18 +14,19 @@ function PasswordUpdate() {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const history = useHistory();
+  const role = localStorage.getItem("role");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       setFormSubmiting(true);
-      await maxios.patch("/supervisor/password", {
-        password,
-      });
+
+      await maxios.patch("/password", { password });
+
       setFormSubmiting(false);
-      history.push("/supervisor/avatar-upload");
+      history.push(role === "student" ? "/" : "/supervisor/avatar-upload");
     } catch (error) {
-      setError(error.response.data.message);
+      errorHandler(error).then((message) => setError(message));
       setFormSubmiting(false);
     }
   };

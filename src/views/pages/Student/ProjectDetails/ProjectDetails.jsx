@@ -84,7 +84,7 @@ function ProjectDetails() {
 
       history.push(`/student/project/status`);
     } catch (error) {
-      setError(error.response.data.message);
+      errorHandler(error).then((message) => setError(message));
       setFormSubmitted(false);
     }
   };

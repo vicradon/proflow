@@ -19,8 +19,7 @@ function CoordinatorSignup() {
   const [avatar, setAvatar] = useState();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [formFieldData, setFormFieldData] = useState({
-    first_name: "",
-    last_name: "",
+    name: "",
     email: "",
     phone_number: "",
     department: "",
@@ -66,9 +65,7 @@ function CoordinatorSignup() {
   };
   return (
     <GeneralTemplate>
-      <h3>
-        We make it easy for you to <br /> coordinate students project{" "}
-      </h3>
+      <h3>We make it easy for you to coordinate students projects</h3>
       <p className="text-gray">
         Create a profile, onboard project supervisors and monitor the progress
         of students.
@@ -106,22 +103,13 @@ function CoordinatorSignup() {
               </p>
             </div>
           </Col>
-          <Col sm={6}>
-            <Form.Label>First Name</Form.Label>
+          <Col sm={12}>
+            <Form.Label>Name</Form.Label>
             <Form.Control
-              name="first_name"
+              name="name"
               onChange={handleTextInputChange}
               required
-              placeholder="e.g. John"
-            />
-          </Col>
-          <Col sm={6}>
-            <Form.Label>Last Name</Form.Label>
-            <Form.Control
-              name="last_name"
-              onChange={handleTextInputChange}
-              required
-              placeholder="e.g. Doe"
+              placeholder="e.g. Dr John Doe"
             />
           </Col>
         </Form.Row>
@@ -162,7 +150,6 @@ function CoordinatorSignup() {
               <FormControl
                 type={passwordVisible ? "text" : "password"}
                 required
-                placeholder="e.g. Pass#330!"
                 name="password"
                 onChange={handleTextInputChange}
               />

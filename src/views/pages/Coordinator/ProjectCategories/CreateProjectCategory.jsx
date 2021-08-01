@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate";
 import SubmitButton from "../../../../components/SubmitButton.jsx";
 import maxios from "../../../../utils/maxios";
+import errorHandler from "../../../../utils/errorHandler";
 
 function CreateProjectCategory() {
   const [formSubmiting, setFormSubmiting] = useState(false);
@@ -19,7 +20,7 @@ function CreateProjectCategory() {
       setFormSubmiting(false);
       history.push("/coordinator/project-categories");
     } catch (error) {
-      setError(error.response.data.message);
+      errorHandler(error).then((message) => setError(message));
       setFormSubmiting(false);
     }
   };

@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react";
+import errorHandler from "../utils/errorHandler";
 import maxios from "../utils/maxios";
 import Images from "./Images";
 import SubmitButton from "./SubmitButton";
@@ -15,7 +16,7 @@ function ProjectPending({ setProjectStatus, supervisorName }) {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      setError(error.response.data.message);
+      errorHandler(error).then((message) => setError(message));
     }
   };
 

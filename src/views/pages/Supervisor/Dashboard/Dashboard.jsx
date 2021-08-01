@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Table, InputGroup, FormControl, Dropdown } from "react-bootstrap";
+import { Table, Dropdown } from "react-bootstrap";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate";
 import Images from "../../../../components/Images.js";
 import styles from "./styles.module.css";
@@ -9,6 +9,7 @@ import { FiSearch } from "react-icons/fi";
 import Loader from "../../../../components/Loader";
 import maxios from "../../../../utils/maxios";
 import moment from "moment";
+import errorHandler from "../../../../utils/errorHandler";
 
 function SupervisorDashboard() {
   const [loading, setLoading] = useState(true);
@@ -25,7 +26,7 @@ function SupervisorDashboard() {
       setStudents(data.students);
       setLoading(false);
     } catch (error) {
-      setError(error.response.data.message);
+      errorHandler(error).then((message) => setError(message));
       setLoading(false);
     }
   };
