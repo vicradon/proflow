@@ -5,6 +5,7 @@ import SubmitButton from "../../../../components/SubmitButton";
 import { Fragment, useState, useEffect } from "react";
 import maxios from "../../../../utils/maxios";
 import LoadingPage from "../../Shared/LoadingPage";
+import errorHandler from "../../../../utils/errorHandler";
 
 function ProjectDetails() {
   const [loading, setLoading] = useState(true);

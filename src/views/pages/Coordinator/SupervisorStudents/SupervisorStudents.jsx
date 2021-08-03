@@ -9,6 +9,7 @@ import { FiSearch } from "react-icons/fi";
 import Loader from "../../../../components/Loader";
 import maxios from "../../../../utils/maxios";
 import moment from "moment";
+import errorHandler from "../../../../utils/errorHandler";
 
 function SupervisorStudents() {
   const { supervisor_id } = useParams();

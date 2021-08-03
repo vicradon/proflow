@@ -5,6 +5,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { Button } from "react-bootstrap";
 import maxios from "../../../../utils/maxios";
 import Loader from "../../../../components/Loader";
+import errorHandler from "../../../../utils/errorHandler";
 
 function StudentDashboard() {
   const [loading, setLoading] = useState(true);
