@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Images from "../../../../components/Images.js";
 import styles from "./styles.module.css";
 import { Document, Page } from "react-pdf";
@@ -9,6 +9,7 @@ import maxios from "../../../../utils/maxios.js";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../../components/Loader.jsx";
 import range from "../../../../utils/range.js";
+import { usePdf } from "@mikecousins/react-pdf";
 
 function ProjectUpload() {
   const history = useHistory();
@@ -18,6 +19,7 @@ function ProjectUpload() {
   const [formSubmited, setFormSubmited] = useState(false);
   const [error, setError] = useState("");
   const [projectPdf, setProjectPdf] = useState();
+  const [tempProjectPdf, setTempProjectPdf] = useState();
   const [pageRange, setPageRange] = useState({ start: 0, end: 1 });
   const [pageCount, setPageCount] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
@@ -78,6 +80,7 @@ function ProjectUpload() {
   };
   const handleFileChange = ({ target }) => {
     setProjectPdf(target.files[0]);
+    setTempProjectPdf(target.files);
   };
   const handleChapterSelect = ({ target }) => {
     setActiveChapterSelect(Number(target.value));
@@ -139,10 +142,21 @@ function ProjectUpload() {
     }
   };
 
+  const canvasRef = useRef(null);
+
+  console.log(projectPdf);
+  const { pdfDocument, pdfPage } = usePdf({
+    file: "https://res.cloudinary.com/osinachi/image/upload/v1628034958/undergraduate-project-supervision/dsne1ckedllq248h9a47.pdf",
+    pageNumber,
+    canvasRef,
+  });
+
   return (
     <DashboardTemplate>
       <div className="m-4">
         <Loader show={loading} />
+
+        <canvas ref={canvasRef} />
 
         {!loading && hasUnresolvedComments && (
           <p className="text-center">
