@@ -19,7 +19,7 @@ function StudentProject() {
 
   const fetchChapters = async () => {
     try {
-      const { data } = await maxios.get(`/chapters/?student_id=${student_id}`);
+      const { data } = await maxios.get(`/student/${student_id}/chapters`);
       setChapters(data.chapters);
       setLoading(false);
     } catch (error) {

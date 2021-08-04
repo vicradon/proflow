@@ -19,6 +19,7 @@ function ProjectChapter() {
 
   const [comments, setComments] = useState([]);
   const [pdfPath, setPdfPath] = useState("");
+  const [pdfLoading, setPdfLoading] = useState(true);
 
   useEffect(() => {
     fetchChapterAndComments();
@@ -32,14 +33,16 @@ function ProjectChapter() {
       setComments(data.comments);
 
       setLoading(false);
+      setPdfLoading(true);
     } catch (error) {
       errorHandler(error).then((message) => setError(message));
       setLoading(false);
+      setPdfLoading(true);
     }
   };
 
   const onDocumentLoadSuccess = () => {
-    setLoading(false);
+    setPdfLoading(false);
   };
 
   const resolveComment = async (comment_id) => {
@@ -61,6 +64,7 @@ function ProjectChapter() {
   return (
     <DashboardTemplate>
       <Loader error={error} show={loading} />
+      {!loading && <Loader show={pdfLoading} />}
       <div className="mx-4">
         <div className="d-flex flex-column flex-wrap align-items-center">
           {!chapter && <p>Chapter {chapter_id} does not exist</p>}
