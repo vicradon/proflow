@@ -25,6 +25,7 @@ function StudentProjectChapter() {
   // comment object { page_number: Number, comment_text: String }
   const [comments, setComments] = useState([]);
   const [pdfPath, setPdfPath] = useState("");
+  const [pdfLoading, setPdfLoading] = useState(true);
 
   useEffect(() => {
     fetchChapterAndComments();
@@ -42,14 +43,16 @@ function StudentProjectChapter() {
       if (data.chapter.status === "approved") setApproveButton(false);
 
       setLoading(false);
+      setPdfLoading(true);
     } catch (error) {
       // errorHandler(error).then((message) => setError(message));;
       setLoading(false);
+      setPdfLoading(true);
     }
   };
 
   const onDocumentLoadSuccess = () => {
-    setLoading(false);
+    setPdfLoading(false);
   };
 
   const createComment = async (event) => {
@@ -122,6 +125,7 @@ function StudentProjectChapter() {
   return (
     <DashboardTemplate>
       <Loader error={error} show={loading} />
+      {!loading && <Loader show={pdfLoading} />}
       <div className="mx-4">
         <div className="d-flex flex-column flex-wrap align-items-center">
           {!chapter && <p>Chapter {chapter_id} does not exist</p>}
@@ -140,8 +144,6 @@ function StudentProjectChapter() {
                           <Pdf
                             file={pdfPath}
                             onDocumentLoadSuccess={onDocumentLoadSuccess}
-                            key={index}
-                            width={800}
                             page={page_number}
                           />
                           {showApproveButton && (

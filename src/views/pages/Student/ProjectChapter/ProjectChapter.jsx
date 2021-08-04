@@ -81,7 +81,7 @@ function ProjectChapter() {
                       <div key={index} className="mb-3 d-flex">
                         <Pdf
                           file={pdfPath}
-                          // onDocumentLoadSuccess={onDocumentLoadSuccess}
+                          onDocumentLoadSuccess={onDocumentLoadSuccess}
                           page={page_number}
                         />
                         {pageComment && (
