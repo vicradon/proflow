@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import Loader from "../../../../components/Loader";
 import maxios from "../../../../utils/maxios";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate";
-import { Document, Page } from "react-pdf";
 import { BiCommentAdd, BiCommentEdit } from "react-icons/bi";
 import { Button, OverlayTrigger, Popover, Form } from "react-bootstrap";
 import SubmitButton from "../../../../components/SubmitButton";
@@ -128,94 +127,87 @@ function StudentProjectChapter() {
           {!chapter && <p>Chapter {chapter_id} does not exist</p>}
           {!loading && chapter && (
             <Fragment>
-              <Pdf
-                file="https://res.cloudinary.com/osinachi/image/upload/v1628034958/undergraduate-project-supervision/dsne1ckedllq248h9a47.pdf"
-                page={chapter.start_page}
-              />
+              <div>
+                {chapter.end_page > chapter.start_page &&
+                  range(chapter.start_page, chapter.end_page).map(
+                    (page_number, index) => {
+                      const pageComment = comments.find(
+                        (comment) => comment.page_number === page_number
+                      );
 
-              {false && (
-                <Document file={pdfPath} onLoadSuccess={onDocumentLoadSuccess}>
-                  {chapter.end_page > chapter.start_page &&
-                    range(chapter.start_page, chapter.end_page).map(
-                      (page_number, index) => {
-                        const pageComment = comments.find(
-                          (comment) => comment.page_number === page_number
-                        );
+                      return (
+                        <div key={index} className="mb-3 d-flex">
+                          <Pdf
+                            file={pdfPath}
+                            onDocumentLoadSuccess={onDocumentLoadSuccess}
+                            key={index}
+                            width={800}
+                            page={page_number}
+                          />
+                          {showApproveButton && (
+                            <OverlayTrigger
+                              trigger="click"
+                              placement="left"
+                              rootClose={true}
+                              overlay={
+                                <Popover className="rounded-lg shadow-sm">
+                                  <Popover.Content>
+                                    <Form
+                                      onSubmit={(event) => {
+                                        pageComment
+                                          ? updateComment(event, pageComment.id)
+                                          : createComment(event);
+                                      }}
+                                    >
+                                      <Form.Row className="mb-3">
+                                        <Form.Label>Comment</Form.Label>
+                                        <Form.Control
+                                          name="comment"
+                                          as="textarea"
+                                          rows={3}
+                                          placeholder="e.g. This page needs images"
+                                          onChange={handleCommentInputChange}
+                                          value={activeComment.comment_text}
+                                        />
+                                      </Form.Row>
 
-                        return (
-                          <div key={index} className="mb-3 d-flex">
-                            <Page
-                              key={index}
-                              width={800}
-                              pageNumber={page_number}
-                            />
-                            {showApproveButton && (
-                              <OverlayTrigger
-                                trigger="click"
-                                placement="left"
-                                rootClose={true}
-                                overlay={
-                                  <Popover className="rounded-lg shadow-sm">
-                                    <Popover.Content>
-                                      <Form
-                                        onSubmit={(event) => {
-                                          pageComment
-                                            ? updateComment(
-                                                event,
-                                                pageComment.id
-                                              )
-                                            : createComment(event);
-                                        }}
+                                      <SubmitButton
+                                        className="d-block float-right mb-2"
+                                        size="sm"
+                                        type="submit"
+                                        disabled={formSubmitting}
                                       >
-                                        <Form.Row className="mb-3">
-                                          <Form.Label>Comment</Form.Label>
-                                          <Form.Control
-                                            name="comment"
-                                            as="textarea"
-                                            rows={3}
-                                            placeholder="e.g. This page needs images"
-                                            onChange={handleCommentInputChange}
-                                            value={activeComment.comment_text}
-                                          />
-                                        </Form.Row>
-
-                                        <SubmitButton
-                                          className="d-block float-right mb-2"
-                                          size="sm"
-                                          type="submit"
-                                          disabled={formSubmitting}
-                                        >
-                                          {pageComment ? "Update" : "add"}
-                                        </SubmitButton>
-                                      </Form>
-                                    </Popover.Content>
-                                  </Popover>
+                                        {pageComment ? "Update" : "add"}
+                                      </SubmitButton>
+                                    </Form>
+                                  </Popover.Content>
+                                </Popover>
+                              }
+                            >
+                              <Button
+                                onClick={() =>
+                                  handleCommentButtonClick(
+                                    pageComment,
+                                    page_number
+                                  )
                                 }
+                                variant="transparent"
+                                className="ml-2"
                               >
-                                <Button
-                                  onClick={() =>
-                                    handleCommentButtonClick(
-                                      pageComment,
-                                      page_number
-                                    )
-                                  }
-                                  variant="transparent"
-                                  className="ml-2"
-                                >
-                                  {pageComment ? (
-                                    <BiCommentEdit size={24} />
-                                  ) : (
-                                    <BiCommentAdd size={24} />
-                                  )}
-                                </Button>
-                              </OverlayTrigger>
-                            )}
-                          </div>
-                        );
-                      }
-                    )}
-                </Document>
-              )}
+                                {pageComment ? (
+                                  <BiCommentEdit size={24} />
+                                ) : (
+                                  <BiCommentAdd size={24} />
+                                )}
+                              </Button>
+                            </OverlayTrigger>
+                          )}
+                        </div>
+                      );
+                    }
+                  )}
+              </div>
+
               {showApproveButton && (
                 <div className="d-flex justify-content-center mb-4">
                   <SubmitButton

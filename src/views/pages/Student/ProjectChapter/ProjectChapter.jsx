@@ -3,12 +3,12 @@ import { useParams } from "react-router-dom";
 import Loader from "../../../../components/Loader";
 import maxios from "../../../../utils/maxios";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate";
-import { Document, Page } from "react-pdf";
 import { BiCommentDetail } from "react-icons/bi";
 import { Button, OverlayTrigger, Popover, Form } from "react-bootstrap";
 import SubmitButton from "../../../../components/SubmitButton";
 import range from "../../../../utils/range";
 import errorHandler from "../../../../utils/errorHandler";
+import Pdf from "@mikecousins/react-pdf";
 
 function ProjectChapter() {
   const { chapter_id } = useParams();
@@ -65,7 +65,7 @@ function ProjectChapter() {
         <div className="d-flex flex-column flex-wrap align-items-center">
           {!chapter && <p>Chapter {chapter_id} does not exist</p>}
           {!loading && chapter && (
-            <Document file={pdfPath} onLoadSuccess={onDocumentLoadSuccess}>
+            <div>
               {chapter.end_page > chapter.start_page &&
                 range(chapter.start_page, chapter.end_page).map(
                   (page_number, index) => {
@@ -75,10 +75,11 @@ function ProjectChapter() {
 
                     return (
                       <div key={index} className="mb-3 d-flex">
-                        <Page
+                        <Pdf
+                          file={pdfPath}
+                          onDocumentLoadSuccess={onDocumentLoadSuccess}
                           key={index}
-                          width={800}
-                          pageNumber={page_number}
+                          page={page_number}
                         />
                         {pageComment && (
                           <OverlayTrigger
@@ -114,7 +115,7 @@ function ProjectChapter() {
                     );
                   }
                 )}
-            </Document>
+            </div>
           )}
         </div>
       </div>

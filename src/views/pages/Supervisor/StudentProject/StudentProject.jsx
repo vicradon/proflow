@@ -20,7 +20,6 @@ function StudentProject() {
   const fetchChapters = async () => {
     try {
       const { data } = await maxios.get(`/chapters/?student_id=${student_id}`);
-      console.log(data);
       setChapters(data.chapters);
       setLoading(false);
     } catch (error) {
@@ -34,7 +33,6 @@ function StudentProject() {
       <div className="mx-4">
         <div className="d-flex align-items-center flex-wrap">
           {chapters.map((chapter) => {
-            console.log(chapter);
             return (
               <div key={"chapter card " + chapter.id} className="mb-5 mr-4">
                 <ChapterCard

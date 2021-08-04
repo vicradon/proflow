@@ -1,15 +1,13 @@
-import { useState, useEffect, useRef } from "react";
-import Images from "../../../../components/Images.js";
+import { useState, useEffect } from "react";
 import styles from "./styles.module.css";
 import { Document, Page } from "react-pdf";
-import { Form, Button, Table } from "react-bootstrap";
+import { Form, Table } from "react-bootstrap";
 import SubmitButton from "../../../../components/SubmitButton";
 import DashboardTemplate from "../../../templates/DashboardTemplate/DashboardTemplate.jsx";
 import maxios from "../../../../utils/maxios.js";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../../components/Loader.jsx";
 import range from "../../../../utils/range.js";
-import Pdf, { usePdf } from "@mikecousins/react-pdf";
 
 function ProjectUpload() {
   const history = useHistory();
@@ -78,9 +76,7 @@ function ProjectUpload() {
     });
   };
   const handleFileChange = ({ target }) => {
-    const file = target.files[0];
-    console.log({ ...file, filename: file.name });
-    setProjectPdf({ ...file, filename: file.name });
+    setProjectPdf(target.files[0]);
   };
   const handleChapterSelect = ({ target }) => {
     setActiveChapterSelect(Number(target.value));
@@ -166,42 +162,7 @@ function ProjectUpload() {
             />
 
             <div className={styles.pdf_select_area}>
-              <div className={styles.pdf_grid}>
-                {projectPdf &&
-                  chapterRanges[activeChapterSelect].map(
-                    (checkValue, index) => {
-                      console.log({ checkValue, index });
-                      return (
-                        <div key={"Page " + index + 1}>
-                          <Form.Check
-                            onChange={handlePageSelect}
-                            value={index + 1}
-                            label={`Page ${index + 1} ${
-                              checkValue === 1
-                                ? index ===
-                                  chapterRanges[activeChapterSelect].findIndex(
-                                    (val) => val === 1
-                                  )
-                                  ? "(start)"
-                                  : "(end)"
-                                : ""
-                            }`}
-                            type="checkbox"
-                            checked={checkValue === 1}
-                          />
-                          <Pdf
-                            // file="https://res.cloudinary.com/osinachi/image/upload/v1628034958/undergraduate-project-supervision/dsne1ckedllq248h9a47.pdf"
-                            file={projectPdf}
-                            page={index + 1}
-                            onDocumentLoadSuccess={onDocumentLoadSuccess}
-                            scale={0.35}
-                          />
-                        </div>
-                      );
-                    }
-                  )}
-              </div>
-              {/* <Document
+              <Document
                 className={styles.pdf_grid}
                 file={projectPdf}
                 onLoadSuccess={onDocumentLoadSuccess}
@@ -229,7 +190,7 @@ function ProjectUpload() {
                     </div>
                   );
                 })}
-              </Document> */}
+              </Document>
 
               {sideOptionsVisible && (
                 <div>
