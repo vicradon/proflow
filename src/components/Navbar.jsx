@@ -14,7 +14,9 @@ function Navbar() {
 
   return (
     <div className="container d-flex justify-content-between">
-      <h3>Undergraduate Project Supervision</h3>
+      <h3>
+        Automated Workflow Scheduling For Undergraduate Project Supervision
+      </h3>
 
       {state.user.isAuthenticated && (
         <Button onClick={logoutUser}>Logout</Button>

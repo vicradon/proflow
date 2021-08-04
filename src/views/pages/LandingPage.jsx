@@ -87,7 +87,8 @@ function LandingPage() {
         {state.user.isAuthenticated && (
           <div>
             <h3 className="text-center">
-              Welcome to Undergraduate Project Supervision
+              Welcome to Automated Workflow Scheduling For Undergraduate Project
+              Supervision
             </h3>
           </div>
         )}
