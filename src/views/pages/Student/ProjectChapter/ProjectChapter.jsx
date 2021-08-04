@@ -28,6 +28,7 @@ function ProjectChapter() {
   const fetchChapterAndComments = async () => {
     try {
       const { data } = await maxios.get(`/chapters/${chapter_id}`);
+
       setChapter(data.chapter);
       setPdfPath(data.pdf_path);
       setComments(data.comments);
@@ -74,7 +75,8 @@ function ProjectChapter() {
                 range(chapter.start_page, chapter.end_page).map(
                   (page_number, index) => {
                     const pageComment = comments.find(
-                      (comment) => comment.page_number === page_number
+                      (comment) =>
+                        Number(comment.page_number) === Number(page_number)
                     );
 
                     return (
