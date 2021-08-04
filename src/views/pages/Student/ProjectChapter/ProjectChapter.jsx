@@ -82,7 +82,6 @@ function ProjectChapter() {
                         <Pdf
                           file={pdfPath}
                           // onDocumentLoadSuccess={onDocumentLoadSuccess}
-                          key={index}
                           page={page_number}
                         />
                         {pageComment && (
