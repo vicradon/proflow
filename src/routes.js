@@ -33,6 +33,7 @@ import SupervisorStudents from "./views/pages/Coordinator/SupervisorStudents/Sup
 import ProjectChapter from "./views/pages/Student/ProjectChapter/ProjectChapter";
 import PasswordUpdate from "./views/pages/Supervisor/Profile/PasswordUpdate";
 import CoordinatorStudents from "./views/pages/Coordinator/Students/Students";
+import PDFTest from "./PDFTest";
 
 const RoleRoute = ({ component: Component, path, ...others }) => {
   const role = localStorage.getItem("role");
@@ -63,6 +64,7 @@ const Routes = () => {
       <Router>
         <ErrorBoundary>
           <Switch>
+            <Route path="/pdf" exact component={PDFTest} />
             <Route path="/" exact component={LandingPage} />
             {/* Student Routes */}
             <Route path="/student/login" component={StudentLogin} />{" "}
